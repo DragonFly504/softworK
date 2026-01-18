@@ -25,35 +25,11 @@ def track_page(request):
 
 def shipment_detail_json(request, tracking_number):
     """Returns full shipment details as JSON"""
-    shipment = get_object_or_404(Shipment, tracking_number=tracking_number)
-    data = {
-        "tracking_number": shipment.tracking_number,
-        "origin": shipment.origin,
-        "destination": shipment.destination,
-        "origin_lat": shipment.origin_lat,
-        "origin_lng": shipment.origin_lng,
-        "dest_lat": shipment.dest_lat,
-        "dest_lng": shipment.dest_lng,
-        "current_lat": shipment.current_lat,
-        "current_lng": shipment.current_lng,
-        "status": shipment.status,
-        "weight": shipment.weight,
-        "dimensions": shipment.dimensions,
-        "estimated_delivery": shipment.estimated_delivery.strftime("%Y-%m-%d %H:%M") if shipment.estimated_delivery else None,
-        "created_at": shipment.created_at.strftime("%Y-%m-%d %H:%M"),
-        "progress": shipment.progress_percentage(),
-        "events": [
-            {
-                "status": e.status,
-                "notes": e.notes,
-                "latitude": e.latitude,
-                "longitude": e.longitude,
-                "timestamp": e.timestamp.strftime("%Y-%m-%d %H:%M")
-            }
-            for e in shipment.events.all()
-        ]
-    }
-    return JsonResponse(data)
+    try:
+        shipment = Shipment.objects.get(tracking_number=tracking_number)
+        return JsonResponse(shipment.to_dict())
+    except Shipment.DoesNotExist:
+        return JsonResponse({"error": "Tracking number not found"}, status=404)
 
 
 def shipment_location_json(request, tracking_number):

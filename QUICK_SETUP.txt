@@ -1,0 +1,39 @@
+# 🎯 QUICK START - Logo Placement
+
+## Copy Your Logo Here ⬇️
+
+```
+c:\Users\USER\Desktop\TTT-PROJECT\static\images\logo.png
+```
+
+That's it! Your logo will automatically appear on:
+- ✅ Signup page
+- ✅ Sign in page  
+- ✅ Home page
+- ✅ Tracking page
+
+## All Redirects Fixed ✅
+
+| From Page | Button | To Page | URL |
+|-----------|--------|---------|-----|
+| Signup | "Already have an account?" | Sign In | /signin/ |
+| Sign In | "Don't have an account?" | Signup | /signup/ |
+| Home | "Login" | Sign In | /signin/ |
+| Home | "Register" | Signup | /signup/ |
+| Track | Logo/Back | Home | / |
+
+## File Structure
+
+```
+TTT-PROJECT/
+└── static/
+    └── images/
+        └── logo.png ← Your logo goes here!
+```
+
+**Logo Requirements:**
+- Format: PNG (with transparent background)
+- Size: 100×100px (will scale automatically)
+- Filename: exactly `logo.png`
+
+Done! 🚀
