@@ -76,21 +76,26 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             text-decoration: none;
             color: var(--dark-text);
+            flex-wrap: nowrap;
+            white-space: nowrap;
         }
 
         .logo-img {
-            height: 50px;
+            height: 48px;
             width: auto;
             object-fit: contain;
+            flex-shrink: 0;
         }
 
         .logo-text {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--primary-blue);
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         nav {
@@ -747,6 +752,9 @@
         .faq-container {
             max-width: 700px;
             margin: 3rem auto;
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
         }
 
         .faq-item {
@@ -1178,6 +1186,28 @@
                 box-sizing: border-box;
             }
 
+            .faq-container {
+                width: 100%;
+                padding: 0 1rem;
+                box-sizing: border-box;
+                margin: 3rem auto;
+            }
+
+            .faq-item {
+                margin-bottom: 1rem;
+                border-radius: 10px;
+            }
+
+            .faq-question {
+                padding: 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            .faq-answer {
+                padding: 1.5rem;
+                font-size: 0.92rem;
+            }
+
             button {
                 min-height: 44px;
                 padding: 0.85rem 1.2rem;
@@ -1446,6 +1476,28 @@
                 height: 1px;
             }
 
+            .faq-container {
+                width: 100%;
+                padding: 0 0.8rem;
+                box-sizing: border-box;
+                margin: 2rem auto;
+            }
+
+            .faq-item {
+                margin-bottom: 0.9rem;
+                border-radius: 9px;
+            }
+
+            .faq-question {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .faq-answer {
+                padding: 1rem;
+                font-size: 0.84rem;
+            }
+
             button {
                 min-height: 40px;
                 padding: 0.7rem 1rem;
@@ -1644,6 +1696,28 @@
 
             .stats-item {
                 padding: 0.5rem 0;
+            }
+
+            .faq-container {
+                width: 100%;
+                padding: 0 0.6rem;
+                box-sizing: border-box;
+                margin: 1.5rem auto;
+            }
+
+            .faq-item {
+                margin-bottom: 0.8rem;
+                border-radius: 8px;
+            }
+
+            .faq-question {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .faq-answer {
+                padding: 1rem;
+                font-size: 0.8rem;
             }
 
             button {
