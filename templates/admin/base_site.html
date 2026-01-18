@@ -10,7 +10,7 @@
 {% block branding %}
 <div id="site-name">
   <div class="admin-header-wrapper">
-    <img src="/static/images/logo.png" alt="TTCP Worldwide" class="admin-logo">
+    <img src="{% static 'images/logo.png' %}" alt="TTCP Worldwide" class="admin-logo">
     <a href="{% url 'admin:index' %}" class="admin-title">
       <span class="admin-title-text">TTCP Worldwide</span>
       <span class="admin-subtitle">Global Tracking System</span>
