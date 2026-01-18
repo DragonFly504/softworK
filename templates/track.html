@@ -800,7 +800,21 @@
     <header>
         <div class="nav-container">
             <a href="/" class="logo-section">
-                <img src="{% static 'images/logo.png' %}" alt="TTCP Worldwide" class="logo-img">
+                <svg class="logo-img" viewBox="0 0 200 200" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Globe background -->
+                    <circle cx="100" cy="100" r="95" fill="#004B9C" opacity="0.1" stroke="#0066FF" stroke-width="2"/>
+                    <!-- Globe continents representation -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#0066FF" stroke-width="1.5" opacity="0.3"/>
+                    <!-- Package/Box -->
+                    <path d="M 65 70 L 100 50 L 135 70 L 135 120 L 65 120 Z" fill="#FF6B35" stroke="#004B9C" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- Box top -->
+                    <line x1="100" y1="50" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5"/>
+                    <line x1="65" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
+                    <line x1="135" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
+                    <!-- Tracking arrow -->
+                    <path d="M 110 140 Q 130 130 140 115" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,2"/>
+                    <polygon points="140,115 145,105 150,120" fill="#0066FF"/>
+                </svg>
                 <span class="logo-text">TTCP Worldwide</span>
             </a>
             <div class="nav-auth">
