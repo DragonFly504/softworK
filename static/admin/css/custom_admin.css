@@ -1,0 +1,163 @@
+/* TTCP Worldwide Admin Custom Styling */
+
+/* Hide theme toggle completely */
+.theme-toggle,
+.theme-toggle-label,
+[data-theme-toggle] {
+    display: none !important;
+}
+
+/* Admin header branding */
+#site-name {
+    background: linear-gradient(135deg, #004B9C 0%, #0066FF 100%);
+    padding: 1.5rem 2rem;
+    margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+    border-bottom: 3px solid #002a5c;
+}
+
+.admin-header-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 100%;
+}
+
+.admin-logo {
+    max-width: 60px;
+    height: auto;
+    border-radius: 8px;
+    background: white;
+    padding: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.admin-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.admin-title-text {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+
+.admin-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.admin-title:hover {
+    opacity: 0.95;
+}
+
+/* Admin header */
+#header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Button styling */
+.button,
+input[type=submit] {
+    background-color: #004B9C;
+    border-color: #004B9C;
+}
+
+.button:hover,
+input[type=submit]:hover {
+    background-color: #0066FF;
+    border-color: #0066FF;
+}
+
+/* Focus states */
+.button:focus,
+input[type=submit]:focus {
+    outline-color: #004B9C;
+}
+
+/* Links */
+a {
+    color: #004B9C;
+}
+
+a:hover {
+    color: #0066FF;
+}
+
+/* Selected row */
+tr.selected {
+    background-color: #e3f2fd;
+}
+
+/* Admin site header */
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: linear-gradient(to right, #004B9C, #0066FF);
+    color: white;
+}
+
+/* Table headers */
+thead th {
+    background: #f0f0f0;
+    border-color: #ddd;
+}
+
+/* Form fields */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #004B9C;
+    outline: 0;
+    box-shadow: 0 0 5px rgba(0, 75, 156, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .admin-header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .admin-logo {
+        max-width: 50px;
+    }
+
+    .admin-title-text {
+        font-size: 1.2rem;
+    }
+
+    .admin-subtitle {
+        font-size: 0.8rem;
+    }
+
+    #site-name {
+        padding: 1rem 1.5rem;
+        margin: -1rem -1rem 1rem -1rem;
+    }
+}

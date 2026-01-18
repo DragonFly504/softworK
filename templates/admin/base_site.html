@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}TTCP Worldwide - Admin{% endblock %}
+
+{% block extrastyle %}
+  <link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+  <div class="admin-header-wrapper">
+    <img src="/static/images/logo.png" alt="TTCP Worldwide" class="admin-logo">
+    <a href="{% url 'admin:index' %}" class="admin-title">
+      <span class="admin-title-text">TTCP Worldwide</span>
+      <span class="admin-subtitle">Global Tracking System</span>
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+  <style>
+    #site-name {
+      background: linear-gradient(135deg, #004B9C 0%, #0066FF 100%);
+      padding: 1.5rem 2rem;
+      margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+      border-bottom: 3px solid #002a5c;
+    }
+
+    .admin-header-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 100%;
+    }
+
+    .admin-logo {
+      max-width: 60px;
+      height: auto;
+      border-radius: 8px;
+      background: white;
+      padding: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .admin-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+    }
+
+    .admin-title-text {
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
+    .admin-title:hover {
+      opacity: 0.95;
+    }
+
+    /* Override theme toggle styling */
+    #header {
+      background: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .theme-toggle {
+      display: none !important;
+    }
+  </style>
+{% endblock %}

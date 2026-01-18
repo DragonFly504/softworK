@@ -835,54 +835,242 @@
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero-visual {
-                min-height: 300px;
-            }
-
-            .shipping-illustration {
-                font-size: 4rem;
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 20px;
             }
 
             .section-title {
                 font-size: 2rem;
             }
+        }
+
+        @media (max-width: 768px) {
+            .logo-section {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .logo-section img {
+                max-width: 60px;
+                height: auto;
+            }
+
+            .logo-text {
+                font-size: 1.2rem;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+                line-height: 1.3;
+            }
+
+            .hero-content p {
+                font-size: 0.95rem;
+                margin: 1rem 0;
+            }
+
+            .hero-visual {
+                min-height: 250px;
+                padding: 1rem;
+            }
+
+            .shipping-illustration {
+                font-size: 3.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                margin: 2rem 0 1rem;
+            }
 
             nav {
-                gap: 1rem;
+                gap: 0.5rem;
                 flex-wrap: wrap;
+                padding: 0 0.5rem;
             }
 
             nav a {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
+                padding: 0.5rem 0.8rem;
             }
 
             .nav-auth {
                 margin-left: 0;
                 width: 100%;
                 margin-top: 0.5rem;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .nav-auth a {
+                flex: 1;
+                text-align: center;
+                padding: 0.6rem 0.5rem;
             }
 
             .services-showcase {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            .service-card h3 {
+                font-size: 1.2rem;
             }
 
             .hero-stats {
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .stat-item {
+                padding: 1rem;
             }
 
             #tracking-map {
-                height: 350px;
+                height: 300px;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            button {
+                min-height: 44px;
+                font-size: 0.95rem;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .logo-text {
+                display: none;
+            }
+
+            .logo-section img {
+                max-width: 50px;
+            }
+
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .services-showcase {
+                gap: 0.8rem;
+            }
+
+            .service-card {
+                padding: 1rem;
+            }
+
+            .service-card h3 {
+                font-size: 1rem;
+            }
+
+            .service-card p {
+                font-size: 0.85rem;
+            }
+
+            nav a {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .hero-stats .stat-item h4 {
+                font-size: 1.2rem;
+            }
+
+            button {
+                width: 100%;
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .hero {
+                padding: 1.5rem 0.75rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.4rem;
+            }
+
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+                margin: 1.5rem 0 0.75rem;
+            }
+
+            .shipping-illustration {
+                font-size: 3rem;
+            }
+
+            .service-card {
+                padding: 0.8rem;
+                border-radius: 8px;
+            }
+
+            .service-card h3 {
+                font-size: 0.95rem;
+                margin: 0.5rem 0;
+            }
+
+            .service-card p {
+                font-size: 0.8rem;
+            }
+
+            nav a {
+                font-size: 0.7rem;
+                padding: 0.35rem 0.5rem;
+            }
+
+            .hero-stats {
+                gap: 0.8rem;
+            }
+
+            .stat-item {
+                padding: 0.8rem;
+            }
+
+            .stat-item h4 {
+                font-size: 1rem;
+            }
+
+            .stat-item p {
+                font-size: 0.8rem;
+            }
+
+            #tracking-map {
+                height: 250px;
+            }
+
+            button {
+                min-height: 40px;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>

@@ -106,6 +106,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Django Admin Customization
+ADMIN_SITE_HEADER = "TTCP Worldwide"
+ADMIN_SITE_TITLE = "TTCP Worldwide Admin"
+ADMIN_INDEX_TITLE = "Global Tracking System"
+
 # Security Settings (Production)
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
@@ -114,3 +119,11 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_SECURITY_POLICY = {
+        "default-src": ("'self'",),
+        "style-src": ("'self'", "'unsafe-inline'", "cdnjs.cloudflare.com"),
+        "script-src": ("'self'", "cdnjs.cloudflare.com"),
+        "img-src": ("'self'", "data:"),
+    }
+
