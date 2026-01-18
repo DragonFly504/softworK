@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTT-PROJECT - Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 100%;
+            padding: 50px 40px;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-header h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .form-header p {
+            color: #666;
+            font-size: 0.95em;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9em;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .password-requirements {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 8px;
+        }
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .requirement.valid {
+            color: #27ae60;
+        }
+        .requirement.invalid {
+            color: #e74c3c;
+        }
+        .requirement::before {
+            content: '✓';
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 3px;
+            cursor: pointer;
+        }
+        .checkbox-group label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        .checkbox-group a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .btn-signup {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        .btn-signup:hover {
+            background: #5568d3;
+        }
+        .btn-signup:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 0.9em;
+        }
+        .signin-link {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .signin-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            background: #fadbd8;
+            color: #c0392b;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.9em;
+        }
+        .error.show {
+            display: block;
+        }
+        .success {
+            background: #d4efdf;
+            color: #155724;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.9em;
+        }
+        .success.show {
+            display: block;
+        }
+        .loading {
+            text-align: center;
+            color: #667eea;
+            display: none;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>📝 Sign Up</h1>
+            <p>Create your TTT-PROJECT account</p>
+        </div>
+
+        <div id="errorMessage" class="error"></div>
+        <div id="successMessage" class="success"></div>
+
+        <form id="signupForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="John">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Doe">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Choose a username">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Minimum 8 characters">
+                <div class="password-requirements">
+                    <div class="requirement" id="req-length">At least 8 characters</div>
+                    <div class="requirement" id="req-uppercase">At least one uppercase letter</div>
+                    <div class="requirement" id="req-number">At least one number</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Re-enter your password">
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+            </div>
+
+            <button type="submit" class="btn-signup">Create Account</button>
+
+            <div class="loading" id="loading">Creating account...</div>
+        </form>
+
+        <div class="divider">Already have an account?</div>
+
+        <div class="signin-link">
+            <a href="/signin/">Sign In</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const loading = document.getElementById('loading');
+
+        // Real-time password validation
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+            
+            document.getElementById('req-length').classList.toggle('valid', password.length >= 8);
+            document.getElementById('req-length').classList.toggle('invalid', password.length < 8);
+            
+            document.getElementById('req-uppercase').classList.toggle('valid', /[A-Z]/.test(password));
+            document.getElementById('req-uppercase').classList.toggle('invalid', !/[A-Z]/.test(password));
+            
+            document.getElementById('req-number').classList.toggle('valid', /\d/.test(password));
+            document.getElementById('req-number').classList.toggle('invalid', !/\d/.test(password));
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+            const terms = document.getElementById('terms').checked;
+
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+
+            // Validation
+            if (!terms) {
+                errorMessage.textContent = 'You must agree to the Terms of Service';
+                errorMessage.classList.add('show');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match';
+                errorMessage.classList.add('show');
+                return;
+            }
+
+            if (password.length < 8) {
+                errorMessage.textContent = 'Password must be at least 8 characters';
+                errorMessage.classList.add('show');
+                return;
+            }
+
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('/backend/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password,
+                        firstName,
+                        lastName,
+                        phone,
+                    }),
+                });
+
+                loading.style.display = 'none';
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Registration failed');
+                }
+
+                const data = await response.json();
+
+                // Store token
+                localStorage.setItem('token', data.token);
+
+                // Show success message
+                successMessage.textContent = 'Account created successfully! Redirecting...';
+                successMessage.classList.add('show');
+
+                // Redirect after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+
+            } catch (error) {
+                loading.style.display = 'none';
+                errorMessage.textContent = error.message;
+                errorMessage.classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>

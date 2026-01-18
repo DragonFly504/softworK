@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTT-PROJECT - Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+            padding: 50px 40px;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-header h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .form-header p {
+            color: #666;
+            font-size: 0.95em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        .remember-forgot input[type="checkbox"] {
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .remember-forgot a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+        .btn-signin {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-signin:hover {
+            background: #5568d3;
+        }
+        .btn-signin:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #999;
+            position: relative;
+        }
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+        }
+        .divider span {
+            background: white;
+            padding: 0 10px;
+            position: relative;
+        }
+        .signup-link {
+            text-align: center;
+            color: #666;
+        }
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            background: #fadbd8;
+            color: #c0392b;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .error.show {
+            display: block;
+        }
+        .success {
+            background: #d4efdf;
+            color: #155724;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .success.show {
+            display: block;
+        }
+        .loading {
+            text-align: center;
+            color: #667eea;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>🔐 Sign In</h1>
+            <p>Welcome back to TTT-PROJECT</p>
+        </div>
+
+        <div id="errorMessage" class="error"></div>
+        <div id="successMessage" class="success"></div>
+
+        <form id="signinForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox" name="remember" id="remember">
+                    Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-signin">Sign In</button>
+
+            <div class="loading" id="loading">Signing in...</div>
+        </form>
+
+        <div class="divider">
+            <span>Don't have an account?</span>
+        </div>
+
+        <div class="signup-link">
+            <a href="/signup/">Create Account</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signinForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const loading = document.getElementById('loading');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('/backend/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                loading.style.display = 'none';
+
+                if (!response.ok) {
+                    throw new Error('Invalid email or password');
+                }
+
+                const data = await response.json();
+
+                // Store token
+                localStorage.setItem('token', data.token);
+                if (remember) {
+                    localStorage.setItem('rememberMe', 'true');
+                }
+
+                // Show success message
+                successMessage.textContent = 'Sign in successful! Redirecting...';
+                successMessage.classList.add('show');
+
+                // Redirect after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+
+            } catch (error) {
+                loading.style.display = 'none';
+                errorMessage.textContent = error.message;
+                errorMessage.classList.add('show');
+            }
+        });
+
+        // Auto-fill if remember me was checked
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('rememberMe')) {
+                document.getElementById('remember').checked = true;
+            }
+        });
+    </script>
+</body>
+</html>
