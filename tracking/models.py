@@ -50,6 +50,11 @@ class Shipment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=['tracking_number']),  # Speed up tracking lookups
+            models.Index(fields=['status']),  # Speed up status filters
+            models.Index(fields=['created_at']),  # Speed up date filters
+        ]
 
     def __str__(self):
         return f"Shipment {self.tracking_number} ({self.status})"

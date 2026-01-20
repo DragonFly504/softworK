@@ -3,1077 +3,1018 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TTCP Worldwide - Real-time package tracking">
-    <title>TTCP WorldWide Global Tracking</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <meta name="description" content="Track your TTCP Worldwide shipment in real-time with GPS tracking and detailed status updates.">
+    <title>Track Shipment | TTCP Worldwide</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Track Page Specific Styles */
+        .track-page {
+            min-height: 100vh;
+            background: var(--gray-50);
         }
-
-        :root {
-            --primary-blue: #004B9C;
-            --secondary-blue: #0066FF;
-            --accent-color: #FF6B35;
-            --white: #FFFFFF;
-            --light-bg: #F8FAFC;
-            --dark-text: #1A202C;
-            --gray-text: #718096;
-            --border-light: #E2E8F0;
-            --success: #27AE60;
-            --warning: #F39C12;
-            --info: #3498DB;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: var(--light-bg);
-            color: var(--dark-text);
-            line-height: 1.6;
-        }
-
-        /* Header/Navigation */
-        header {
-            background: var(--white);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0.8rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
-            color: var(--dark-text);
-            flex-wrap: nowrap;
-            white-space: nowrap;
-        }
-
-        .logo-img {
-            height: 50px;
-            width: auto;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .logo-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }
-
-        .nav-auth {
-            display: flex;
-            gap: 1rem;
-            margin-left: auto;
-        }
-
-        .nav-auth a {
-            padding: 0.6rem 1.4rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .nav-auth .back-btn {
-            color: var(--primary-blue);
-            background: transparent;
-            border: 2px solid var(--primary-blue);
-            transition: all 0.3s ease;
-        }
-
-        .nav-auth .back-btn:hover {
-            background: var(--primary-blue);
+        
+        .track-hero {
+            background: var(--gradient-dark);
+            padding: 8rem 0 4rem;
             color: var(--white);
         }
-
-        .container {
-            max-width: 1400px;
+        
+        .track-hero-content {
+            text-align: center;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 2rem;
         }
-
-        /* Search Section */
-        .search-section {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            margin-bottom: 2rem;
-        }
-
-        .search-section h2 {
-            color: var(--primary-blue);
-            font-size: 1.8rem;
+        
+        .track-hero h1 {
+            color: var(--white);
             margin-bottom: 1rem;
         }
-
-        .search-box {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+        
+        .track-hero p {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
         }
-
-        .search-box input {
+        
+        .track-search-box {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .track-search-box input {
             flex: 1;
-            min-width: 250px;
-            padding: 0.8rem 1rem;
-            border: 2px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--secondary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
-        }
-
-        .search-box button {
-            padding: 0.8rem 2rem;
-            background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
             color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            transition: var(--transition-normal);
         }
-
-        .search-box button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        
+        .track-search-box input::placeholder {
+            color: var(--gray-400);
         }
-
-        /* Tracking Details */
-        .tracking-container {
-            display: none;
+        
+        .track-search-box input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.15);
         }
-
-        .tracking-container.active {
-            display: block;
+        
+        .track-content {
+            padding: 3rem 0;
         }
-
-        .header-info {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        
+        /* Loading State */
+        .loading-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
         }
-
-        .tracking-number-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        
+        .loading-state i {
+            font-size: 3rem;
+            color: var(--secondary);
             margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
-
-        .tracking-number-header h3 {
-            font-size: 1.5rem;
-            color: var(--dark-text);
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
         }
-
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--gray-300);
+            margin-bottom: 1.5rem;
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Shipment Details Grid */
+        .shipment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .shipment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Map Container */
+        .track-map-container {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            height: 500px;
+        }
+        
+        #shipmentMap {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Info Cards */
+        .info-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .card-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .card-header h3 i {
+            color: var(--secondary);
+        }
+        
+        /* Status Badge */
         .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
             font-weight: 600;
-            font-size: 0.9rem;
         }
-
+        
         .status-created {
-            background: #F0F0F0;
-            color: var(--gray-text);
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--gray-600);
         }
-
-        .status-in-transit {
-            background: rgba(52, 152, 219, 0.15);
-            color: var(--info);
+        
+        .status-in_transit, .status-in-transit {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary);
         }
-
-        .status-out-for-delivery {
-            background: rgba(243, 156, 18, 0.15);
+        
+        .status-out_for_delivery, .status-out-for-delivery {
+            background: rgba(245, 158, 11, 0.1);
             color: var(--warning);
         }
-
+        
         .status-delivered {
-            background: rgba(39, 174, 96, 0.15);
+            background: rgba(16, 185, 129, 0.1);
             color: var(--success);
         }
-
-        .progress-container {
-            margin: 2rem 0;
+        
+        .status-failed, .status-exception {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
         }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--border-light);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
-            transition: width 0.5s ease;
-        }
-
-        .progress-steps {
+        
+        /* Info Grid */
+        .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            text-align: center;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
         }
-
-        .progress-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        
+        .info-item {
+            padding: 0.75rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
         }
-
-        .progress-step-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--border-light);
-            color: var(--gray-text);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .progress-step.completed .progress-step-icon {
-            background: var(--success);
-            color: var(--white);
-        }
-
-        .progress-step.active .progress-step-icon {
-            background: var(--secondary-blue);
-            color: var(--white);
-        }
-
-        .progress-step-label {
-            font-size: 0.85rem;
-            color: var(--gray-text);
-            font-weight: 500;
-        }
-
-        .progress-step.completed .progress-step-label {
-            color: var(--dark-text);
-        }
-
-        /* Shipment Info Grid */
-        .shipment-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .detail-card {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border-left: 4px solid var(--secondary-blue);
-        }
-
-        .detail-card h4 {
-            color: var(--gray-text);
-            font-size: 0.85rem;
-            font-weight: 600;
+        
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--gray-500);
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
         }
-
-        .detail-card p {
-            color: var(--dark-text);
-            font-size: 1.1rem;
+        
+        .info-value {
             font-weight: 600;
-            word-break: break-all;
+            color: var(--gray-800);
         }
-
-        .detail-card .detail-icon {
-            float: right;
-            font-size: 1.8rem;
-            opacity: 0.2;
-        }
-
-        /* Map Section */
-        .map-section {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-
-        .map-section h3 {
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        #tracking-map {
-            width: 100%;
-            height: 400px;
-            border-radius: 8px;
-        }
-
+        
         /* Timeline */
-        .timeline-section {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-
-        .timeline-section h3 {
-            color: var(--primary-blue);
-            margin-bottom: 2rem;
-            font-size: 1.3rem;
-        }
-
         .timeline {
             position: relative;
             padding-left: 2rem;
         }
-
+        
         .timeline::before {
             content: '';
             position: absolute;
-            left: 0;
+            left: 7px;
             top: 0;
             bottom: 0;
             width: 2px;
-            background: var(--border-light);
+            background: var(--gray-200);
         }
-
-        .timeline-event {
-            margin-bottom: 2rem;
+        
+        .timeline-item {
             position: relative;
+            padding-bottom: 1.5rem;
         }
-
-        .timeline-event::before {
-            content: '';
+        
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        
+        .timeline-marker {
             position: absolute;
-            left: -2.6rem;
-            top: 0.5rem;
+            left: -2rem;
+            top: 0;
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            background: var(--secondary-blue);
+            background: var(--gray-300);
             border: 3px solid var(--white);
-            box-shadow: 0 0 0 3px var(--secondary-blue);
+            box-shadow: var(--shadow-sm);
         }
-
-        .timeline-event.completed::before {
+        
+        .timeline-item.active .timeline-marker {
+            background: var(--secondary);
+        }
+        
+        .timeline-item.completed .timeline-marker {
             background: var(--success);
-            box-shadow: 0 0 0 3px var(--success);
         }
-
-        .timeline-event-content {
-            background: var(--light-bg);
-            padding: 1.2rem;
-            border-radius: 8px;
-            border-left: 3px solid var(--secondary-blue);
+        
+        .timeline-content {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: var(--radius-md);
         }
-
-        .timeline-event.completed .timeline-event-content {
-            border-left-color: var(--success);
-        }
-
-        .timeline-event-time {
+        
+        .timeline-title {
             font-weight: 600;
-            color: var(--primary-blue);
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-location {
             font-size: 0.9rem;
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
         }
-
-        .timeline-event-status {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark-text);
-            margin-top: 0.3rem;
+        
+        .timeline-location i {
+            color: var(--secondary);
         }
-
-        .timeline-event-location {
-            color: var(--gray-text);
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
+        
+        .timeline-time {
+            font-size: 0.8rem;
+            color: var(--gray-500);
         }
-
-        .timeline-event-notes {
-            color: var(--gray-text);
+        
+        .timeline-notes {
             margin-top: 0.5rem;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-style: italic;
         }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: var(--white);
-            border-radius: 12px;
-            margin: 2rem 0;
-            display: none;
+        
+        /* Contact Cards */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
-
-        .empty-state.active {
-            display: block;
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            color: var(--border-light);
-            margin-bottom: 1rem;
-        }
-
-        .empty-state p {
-            color: var(--gray-text);
-            font-size: 1.1rem;
-        }
-
-        /* Error State */
-        .error-state {
-            background: rgba(231, 76, 60, 0.1);
-            border-left: 4px solid #E74C3C;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            display: none;
-            color: #E74C3C;
-        }
-
-        .error-state.active {
-            display: block;
-        }
-
-        .error-state i {
-            margin-right: 0.5rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            .logo-section {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .logo-section img {
-                max-width: 70px;
-            }
-
-            .logo-text {
-                font-size: 1.1rem;
-            }
-        }
-
+        
         @media (max-width: 768px) {
-            .logo-section img {
-                max-width: 60px;
-            }
-
-            .logo-text {
-                font-size: 1rem;
-            }
-
-            .nav-container {
-                padding: 1rem 1.5rem;
-                gap: 1rem;
-            }
-
-            .back-btn {
-                font-size: 0.9rem;
-                padding: 0.6rem 1rem;
-            }
-
-            .search-section h2 {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .tracking-number-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .search-box {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .search-box input,
-            .search-box button {
-                width: 100%;
-                padding: 0.8rem;
-                min-height: 44px;
-                font-size: 0.95rem;
-            }
-
-            .progress-steps {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.8rem;
-                margin: 1.5rem 0;
-            }
-
-            .shipment-details {
+            .contact-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
             }
-
-            .detail-card {
-                padding: 1rem;
-            }
-
-            #tracking-map {
-                height: 300px;
-                margin: 1.5rem 0;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            .timeline {
-                padding: 1rem;
-            }
-
-            .timeline-item {
-                padding: 0.8rem;
+            
+            .info-grid {
+                grid-template-columns: 1fr;
             }
         }
-
-        @media (max-width: 600px) {
-            .logo-section {
-                gap: 0.3rem;
-            }
-
-            .logo-section img {
-                max-width: 50px;
-            }
-
-            .logo-text {
-                display: none;
-            }
-
-            .nav-container {
-                padding: 0.8rem 1rem;
-                flex-wrap: wrap;
-            }
-
-            .back-btn {
-                font-size: 0.85rem;
-                padding: 0.5rem 0.8rem;
-                width: 100%;
-                text-align: center;
-            }
-
-            .search-section h2 {
-                font-size: 1.2rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .search-section {
-                padding: 1rem 0;
-            }
-
-            .search-box input {
-                padding: 0.7rem;
-                font-size: 0.9rem;
-                min-height: 40px;
-            }
-
-            .search-box button {
-                padding: 0.7rem;
-                font-size: 0.9rem;
-                min-height: 40px;
-            }
-
-            .progress-steps {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.6rem;
-                margin: 1rem 0;
-            }
-
-            .progress-step {
-                padding: 0.6rem;
-                font-size: 0.85rem;
-            }
-
-            .progress-step .step-number {
-                font-size: 1.2rem;
-            }
-
-            .shipment-details {
-                gap: 0.8rem;
-            }
-
-            .detail-card {
-                padding: 0.8rem;
-                border-radius: 8px;
-            }
-
-            .detail-card h3 {
-                font-size: 1rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .detail-card p {
-                font-size: 0.85rem;
-                line-height: 1.5;
-            }
-
-            #tracking-map {
-                height: 250px;
-                margin: 1rem 0;
-            }
-
-            .timeline {
-                padding: 0.8rem;
-            }
-
-            .timeline-item {
-                padding: 0.6rem;
-                border-radius: 6px;
-            }
-
-            .timeline-date {
-                font-size: 0.8rem;
-            }
-
-            .timeline-status {
-                font-size: 0.9rem;
-                font-weight: 600;
-            }
-
-            .timeline-location {
-                font-size: 0.8rem;
-            }
-
-            .container {
-                padding: 0.8rem;
-            }
+        
+        .contact-card {
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
         }
-
-        @media (max-width: 480px) {
-            .logo-section img {
-                max-width: 45px;
-            }
-
-            .nav-container {
-                padding: 0.6rem 0.8rem;
-                gap: 0.5rem;
-            }
-
-            .back-btn {
-                font-size: 0.8rem;
-                padding: 0.4rem 0.6rem;
-            }
-
-            .search-section {
-                padding: 0.8rem 0;
-            }
-
-            .search-section h2 {
-                font-size: 1.1rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .search-box {
-                gap: 0.5rem;
-            }
-
-            .search-box input,
-            .search-box button {
-                padding: 0.6rem;
-                font-size: 0.85rem;
-                min-height: 38px;
-            }
-
-            .progress-steps {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.5rem;
-                margin: 0.8rem 0;
-            }
-
-            .progress-step {
-                padding: 0.5rem;
-                font-size: 0.75rem;
-            }
-
-            .progress-step .step-number {
-                font-size: 1rem;
-            }
-
-            .shipment-details {
-                gap: 0.6rem;
-            }
-
-            .detail-card {
-                padding: 0.6rem;
-                border-radius: 6px;
-            }
-
-            .detail-card h3 {
-                font-size: 0.9rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .detail-card p {
-                font-size: 0.8rem;
-            }
-
-            #tracking-map {
-                height: 220px;
-                margin: 0.8rem 0;
-            }
-
-            .timeline {
-                padding: 0.6rem;
-            }
-
-            .timeline-item {
-                padding: 0.5rem;
-                border-radius: 5px;
-            }
-
-            .timeline-date {
-                font-size: 0.75rem;
-            }
-
-            .timeline-status {
-                font-size: 0.85rem;
-            }
-
-            .timeline-location {
-                font-size: 0.75rem;
-            }
-
-            .container {
-                padding: 0.6rem;
-            }
+        
+        .contact-card-title {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-detail {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .contact-detail i {
+            color: var(--secondary);
+            width: 14px;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 1.5rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            transition: width 0.5s ease;
+        }
+        
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+        
+        /* Error state */
+        .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .error-state i {
+            font-size: 4rem;
+            color: var(--error);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Actions */
+        .shipment-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .shipment-actions .btn {
+            flex: 1;
         }
     </style>
 </head>
-<body>
+<body class="track-page">
     <!-- Header -->
-    <header>
-        <div class="nav-container">
+    <header class="header" id="header">
+        <nav class="nav-container">
             <a href="/" class="logo-section">
-                <svg class="logo-img" viewBox="0 0 200 200" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Globe background -->
-                    <circle cx="100" cy="100" r="95" fill="#004B9C" opacity="0.1" stroke="#0066FF" stroke-width="2"/>
-                    <!-- Globe continents representation -->
-                    <circle cx="100" cy="100" r="70" fill="none" stroke="#0066FF" stroke-width="1.5" opacity="0.3"/>
-                    <!-- Package/Box -->
-                    <path d="M 65 70 L 100 50 L 135 70 L 135 120 L 65 120 Z" fill="#FF6B35" stroke="#004B9C" stroke-width="2" stroke-linejoin="round"/>
-                    <!-- Box top -->
-                    <line x1="100" y1="50" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5"/>
-                    <line x1="65" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                    <line x1="135" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                    <!-- Tracking arrow -->
-                    <path d="M 110 140 Q 130 130 140 115" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,2"/>
-                    <polygon points="140,115 145,105 150,120" fill="#0066FF"/>
-                </svg>
-                <span class="logo-text">TTCP Worldwide</span>
+                <img src="/static/images/logo.png" alt="TTCP Worldwide" class="logo-img">
+                <span class="logo-text">TTCP <span>Worldwide</span></span>
             </a>
-            <div class="nav-auth">
-                <a href="/" class="back-btn">
-                    <i class="fas fa-arrow-left"></i> Back to Home
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/#services">Services</a>
+                <a href="/#features">Features</a>
+                <a href="/#faq">FAQ</a>
+            </div>
+            
+            <div class="nav-auth" id="navAuth">
+                <a href="/signin" class="btn btn-secondary btn-sm">Sign In</a>
+                <a href="/signup" class="btn btn-primary btn-sm">Get Started</a>
+            </div>
+            <div class="nav-auth nav-auth-logged-in" id="navAuthLoggedIn" style="display: none;">
+                <a href="/profile" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+                <a href="/auth/logout/" class="btn btn-primary btn-sm">
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
-        </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
     </header>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Search Section -->
-        <div class="search-section">
-            <h2><i class="fas fa-search"></i> Track Your Package</h2>
-            <div class="search-box">
-                <input type="text" id="trackingNumber" placeholder="Enter tracking number (e.g., TTCP123456789)" autocomplete="off">
-                <button onclick="searchTracking()">
-                    <i class="fas fa-search"></i> Search
-                </button>
-            </div>
-        </div>
-
-        <!-- Empty State -->
-        <div class="empty-state active">
-            <i class="fas fa-box"></i>
-            <p>Enter a tracking number above to view shipment details</p>
-        </div>
-
-        <!-- Error State -->
-        <div class="error-state" id="errorState"></div>
-
-        <!-- Tracking Details -->
-        <div class="tracking-container" id="trackingContainer">
-            <!-- Header Info -->
-            <div class="header-info">
-                <div class="tracking-number-header">
-                    <h3>Tracking #<span id="trackingNumberDisplay"></span></h3>
-                    <span class="status-badge" id="statusBadge"></span>
-                </div>
+    <!-- Track Hero -->
+    <section class="track-hero">
+        <div class="container">
+            <div class="track-hero-content">
+                <h1>Track Your Shipment</h1>
+                <p>Enter your tracking number to get real-time updates on your package location and delivery status.</p>
                 
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill" style="width: 75%;"></div>
-                    </div>
-                    <div class="progress-steps" id="progressSteps"></div>
+                <div class="track-search-box">
+                    <input type="text" id="trackingNumber" placeholder="Enter tracking number (e.g., TTCP123456789)">
+                    <button class="btn btn-accent btn-lg" id="trackBtn">
+                        <i class="fas fa-search"></i>
+                        Track
+                    </button>
                 </div>
-            </div>
-
-            <!-- Shipment Details -->
-            <div class="shipment-details" id="shipmentDetails"></div>
-
-            <!-- Map Section -->
-            <div class="map-section">
-                <h3><i class="fas fa-map-location-dot"></i> Current Location</h3>
-                <div id="tracking-map"></div>
-            </div>
-
-            <!-- Timeline -->
-            <div class="timeline-section">
-                <h3><i class="fas fa-history"></i> Tracking Timeline</h3>
-                <div class="timeline" id="timeline"></div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-WBkoXxVKyOy543Ck6sbchxbK55xl26rVnpJKosiQxC0=" crossorigin="anonymous"></script>
-    <script>
-        let map = null;
-        let marker = null;
-
-        // Get tracking number from URL parameters
-        function getTrackingNumber() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('q') || params.get('tracking');
-        }
-
-        // Fetch tracking data from backend API
-        async function fetchTrackingData(trackingNumber) {
-            try {
-                const response = await fetch(`/api/shipment/${trackingNumber}/`);
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        throw new Error('Tracking number not found in system');
-                    }
-                    throw new Error('Failed to fetch tracking data');
-                }
-                return await response.json();
-            } catch (error) {
-                console.error('Error fetching tracking data:', error);
-                throw error;
-            }
-        }
-
-        // Display tracking data from API
-        function displayTrackingData(data) {
-            // Update header
-            document.getElementById('trackingNumberDisplay').textContent = data.tracking_number;
+    <!-- Track Content -->
+    <section class="track-content">
+        <div class="container">
+            <!-- Initial State -->
+            <div id="initialState" class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h3>Enter Your Tracking Number</h3>
+                <p>Enter your tracking number above to view shipment details, location, and delivery status.</p>
+            </div>
             
-            const statusBadge = document.getElementById('statusBadge');
-            const statusText = data.status.replace(/-/g, ' ').replace(/_/g, ' ').toUpperCase();
-            const statusIcon = {
-                'created': '✓',
-                'in_transit': '📦',
-                'in-transit': '📦',
-                'out_for_delivery': '🚚',
-                'out-for-delivery': '🚚',
-                'delivered': '✓',
-                'failed': '❌'
-            }[data.status] || '✓';
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading shipment details...</p>
+            </div>
             
-            statusBadge.textContent = statusIcon + ' ' + statusText;
-            statusBadge.className = `status-badge status-${data.status.replace(/_/g, '-')}`;
-
-            // Update progress
-            document.getElementById('progressFill').style.width = data.progress + '%';
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>Shipment Not Found</h3>
+                <p id="errorMessage">We couldn't find a shipment with that tracking number. Please check and try again.</p>
+            </div>
             
-            // Progress steps
-            const steps = ['Created', 'In Transit', 'Out for Delivery', 'Delivered'];
-            const progressMapping = { 'created': 0, 'in-transit': 1, 'in_transit': 1, 'out-for-delivery': 2, 'out_for_delivery': 2, 'delivered': 3, 'failed': 2 };
-            const currentStep = progressMapping[data.status] || 0;
-            
-            let stepsHTML = '';
-            steps.forEach((step, idx) => {
-                const completed = idx <= currentStep;
-                const active = idx === currentStep;
-                stepsHTML += `
-                    <div class="progress-step ${completed ? 'completed' : ''} ${active ? 'active' : ''}">
-                        <div class="progress-step-icon">${idx + 1}</div>
-                        <div class="progress-step-label">${step}</div>
-                    </div>
-                `;
-            });
-            document.getElementById('progressSteps').innerHTML = stepsHTML;
-
-            // Shipment details
-            let detailsHTML = `
-                <div class="detail-card">
-                    <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
-                    <h4>Origin</h4>
-                    <p>${data.origin || '-'}</p>
-                </div>
-                <div class="detail-card">
-                    <div class="detail-icon"><i class="fas fa-location-dot"></i></div>
-                    <h4>Destination</h4>
-                    <p>${data.destination || '-'}</p>
-                </div>
-                <div class="detail-card">
-                    <div class="detail-icon"><i class="fas fa-weight"></i></div>
-                    <h4>Weight</h4>
-                    <p>${data.weight ? data.weight + ' kg' : 'N/A'}</p>
-                </div>
-                <div class="detail-card">
-                    <div class="detail-icon"><i class="fas fa-user"></i></div>
-                    <h4>Sender</h4>
-                    <p>${data.sender_name || '-'}</p>
-                </div>
-                <div class="detail-card">
-                    <div class="detail-icon"><i class="fas fa-user-check"></i></div>
-                    <h4>Receiver</h4>
-                    <p>${data.receiver_name || '-'}</p>
-                </div>
-                <div class="detail-card">
-                    <div class="detail-icon"><i class="fas fa-calendar"></i></div>
-                    <h4>Est. Delivery</h4>
-                    <p>${data.est_delivery || 'N/A'}</p>
-                </div>
-            `;
-            document.getElementById('shipmentDetails').innerHTML = detailsHTML;
-
-            // Timeline from events
-            let timelineHTML = '';
-            if (data.events && data.events.length > 0) {
-                data.events.forEach((event, idx) => {
-                    const isCompleted = idx < data.events.length - 1 || data.status === 'delivered';
-                    timelineHTML += `
-                        <div class="timeline-event ${isCompleted ? 'completed' : ''}">
-                            <div class="timeline-event-content">
-                                <div class="timeline-event-time">${event.timestamp}</div>
-                                <div class="timeline-event-status">${event.status}</div>
-                                <div class="timeline-event-location">${event.location || 'N/A'}</div>
-                                <div class="timeline-event-notes">${event.description || ''}</div>
+            <!-- Shipment Details -->
+            <div id="shipmentDetails" style="display: none;">
+                <div class="shipment-grid">
+                    <!-- Left Column -->
+                    <div>
+                        <!-- Map -->
+                        <div class="track-map-container">
+                            <div id="shipmentMap"></div>
+                        </div>
+                        
+                        <!-- Shipment Info -->
+                        <div class="info-card" style="margin-top: 1.5rem;">
+                            <div class="card-header">
+                                <h3><i class="fas fa-box"></i> Shipment Details</h3>
+                                <span class="status-badge" id="statusBadge">
+                                    <i class="fas fa-circle"></i>
+                                    <span id="statusText">In Transit</span>
+                                </span>
+                            </div>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">Tracking Number</div>
+                                    <div class="info-value" id="displayTrackingNumber">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Service Type</div>
+                                    <div class="info-value" id="displayServiceType">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Weight</div>
+                                    <div class="info-value" id="displayWeight">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Dimensions</div>
+                                    <div class="info-value" id="displayDimensions">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Origin</div>
+                                    <div class="info-value" id="displayOrigin">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Destination</div>
+                                    <div class="info-value" id="displayDestination">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Created</div>
+                                    <div class="info-value" id="displayCreated">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Est. Delivery</div>
+                                    <div class="info-value" id="displayEstDelivery">--</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress Bar -->
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                                </div>
+                                <div class="progress-labels">
+                                    <span>Created</span>
+                                    <span>In Transit</span>
+                                    <span>Out for Delivery</span>
+                                    <span>Delivered</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="shipment-actions">
+                                <button class="btn btn-outline" onclick="window.print()">
+                                    <i class="fas fa-print"></i>
+                                    Print
+                                </button>
+                                <button class="btn btn-primary" onclick="shareTracking()">
+                                    <i class="fas fa-share-alt"></i>
+                                    Share
+                                </button>
                             </div>
                         </div>
-                    `;
-                });
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div>
+                        <!-- Sender/Receiver Info -->
+                        <div class="info-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-user"></i> Contact Information</h3>
+                            </div>
+                            
+                            <div class="contact-grid">
+                                <div class="contact-card">
+                                    <div class="contact-card-title">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Sender
+                                    </div>
+                                    <div class="contact-name" id="senderName">--</div>
+                                    <div class="contact-detail">
+                                        <i class="fas fa-envelope"></i>
+                                        <span id="senderEmail">--</span>
+                                    </div>
+                                    <div class="contact-detail">
+                                        <i class="fas fa-phone"></i>
+                                        <span id="senderPhone">--</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-card">
+                                    <div class="contact-card-title">
+                                        <i class="fas fa-inbox"></i>
+                                        Receiver
+                                    </div>
+                                    <div class="contact-name" id="receiverName">--</div>
+                                    <div class="contact-detail">
+                                        <i class="fas fa-envelope"></i>
+                                        <span id="receiverEmail">--</span>
+                                    </div>
+                                    <div class="contact-detail">
+                                        <i class="fas fa-phone"></i>
+                                        <span id="receiverPhone">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline -->
+                        <div class="info-card" style="margin-top: 1.5rem;">
+                            <div class="card-header">
+                                <h3><i class="fas fa-history"></i> Tracking History</h3>
+                            </div>
+                            
+                            <div class="timeline" id="timeline">
+                                <!-- Timeline items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-section">
+                        <img src="/static/images/logo.png" alt="TTCP Worldwide" class="logo-img" style="height: 40px;">
+                        <span class="logo-text">TTCP <span>Worldwide</span></span>
+                    </div>
+                    <p>Your trusted partner in global logistics. We deliver excellence, one package at a time.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/track">Track Package</a></li>
+                        <li><a href="/#services">Services</a></li>
+                        <li><a href="/#features">Features</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Air Freight</a></li>
+                        <li><a href="#">Ocean Freight</a></li>
+                        <li><a href="#">Ground Shipping</a></li>
+                        <li><a href="#">Warehousing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/#faq">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 TTCP Worldwide. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
             } else {
-                timelineHTML = '<p style="color: var(--gray-text);">No events recorded yet</p>';
+                header.classList.remove('scrolled');
             }
-            document.getElementById('timeline').innerHTML = timelineHTML;
+        });
 
-            // Update visibility
-            document.querySelector('.empty-state').classList.remove('active');
-            document.getElementById('errorState').classList.remove('active');
-            document.getElementById('trackingContainer').classList.add('active');
+        // Initialize map
+        let map = null;
+        let markers = [];
 
-            // Initialize map
-            setTimeout(() => initializeMap(data), 100);
+        function initMap() {
+            if (map) return;
+            map = L.map('shipmentMap').setView([20, 0], 2);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
         }
 
-        function searchTracking() {
-            const trackingNumber = document.getElementById('trackingNumber').value.trim();
-            if (!trackingNumber) {
-                showError('Please enter a tracking number');
+        function clearMarkers() {
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+        }
+
+        // DOM Elements
+        const trackingInput = document.getElementById('trackingNumber');
+        const trackBtn = document.getElementById('trackBtn');
+        const initialState = document.getElementById('initialState');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const shipmentDetails = document.getElementById('shipmentDetails');
+
+        // Show state functions
+        function showState(state) {
+            initialState.style.display = 'none';
+            loadingState.style.display = 'none';
+            errorState.style.display = 'none';
+            shipmentDetails.style.display = 'none';
+            state.style.display = 'block';
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return '--';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Get status class
+        function getStatusClass(status) {
+            const statusMap = {
+                'created': 'status-created',
+                'in_transit': 'status-in_transit',
+                'in-transit': 'status-in-transit',
+                'out_for_delivery': 'status-out_for_delivery',
+                'out-for-delivery': 'status-out-for-delivery',
+                'delivered': 'status-delivered',
+                'failed': 'status-failed',
+                'exception': 'status-exception'
+            };
+            return statusMap[status.toLowerCase()] || 'status-created';
+        }
+
+        // Calculate progress
+        function getProgress(status) {
+            const progressMap = {
+                'created': 15,
+                'in_transit': 45,
+                'in-transit': 45,
+                'out_for_delivery': 75,
+                'out-for-delivery': 75,
+                'delivered': 100,
+                'failed': 0
+            };
+            return progressMap[status.toLowerCase()] || 0;
+        }
+
+        // Render timeline
+        function renderTimeline(events) {
+            const timeline = document.getElementById('timeline');
+            
+            if (!events || events.length === 0) {
+                timeline.innerHTML = '<p style="color: var(--gray-500); text-align: center;">No tracking events available.</p>';
                 return;
             }
-            loadTrackingData(trackingNumber);
+
+            // Sort events by timestamp (newest first)
+            events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            timeline.innerHTML = events.map((event, index) => `
+                <div class="timeline-item ${index === 0 ? 'active' : 'completed'}">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">${event.status_display || event.status}</div>
+                        ${event.location ? `
+                            <div class="timeline-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${event.location}
+                            </div>
+                        ` : ''}
+                        <div class="timeline-time">${formatDate(event.timestamp)}</div>
+                        ${event.notes ? `<div class="timeline-notes">${event.notes}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
         }
 
-        async function loadTrackingData(trackingNumber) {
+        // Track shipment
+        async function trackShipment(trackingNumber) {
+            if (!trackingNumber.trim()) {
+                alert('Please enter a tracking number');
+                return;
+            }
+
+            showState(loadingState);
+            trackBtn.disabled = true;
+
             try {
-                const data = await fetchTrackingData(trackingNumber);
-                displayTrackingData(data);
+                const response = await fetch(`/api/shipment/${encodeURIComponent(trackingNumber)}/`);
+                
+                if (!response.ok) {
+                    throw new Error('Shipment not found');
+                }
+
+                const data = await response.json();
+                displayShipment(data);
+                
             } catch (error) {
-                showError(error.message);
+                document.getElementById('errorMessage').textContent = 
+                    error.message === 'Shipment not found' 
+                        ? "We couldn't find a shipment with that tracking number. Please check and try again."
+                        : "An error occurred while fetching shipment data. Please try again.";
+                showState(errorState);
+            } finally {
+                trackBtn.disabled = false;
             }
         }
 
-        function initializeMap(data) {
-            const lat = data.current_lat || 40.7128;
-            const lng = data.current_lng || -74.0060;
+        // Display shipment data
+        function displayShipment(data) {
+            // Update status badge
+            const statusBadge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            statusBadge.className = `status-badge ${getStatusClass(data.status)}`;
+            statusText.textContent = data.status_display || data.status;
 
-            if (map) {
-                map.setView([lat, lng], 10);
-                if (marker) map.removeLayer(marker);
-            } else {
-                map = L.map('tracking-map').setView([lat, lng], 10);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; OpenStreetMap contributors'
+            // Update info fields
+            document.getElementById('displayTrackingNumber').textContent = data.tracking_number || '--';
+            document.getElementById('displayServiceType').textContent = data.service_type || 'Standard';
+            document.getElementById('displayWeight').textContent = data.weight ? `${data.weight} kg` : '--';
+            document.getElementById('displayDimensions').textContent = data.dimensions || '--';
+            document.getElementById('displayOrigin').textContent = data.origin || '--';
+            document.getElementById('displayDestination').textContent = data.destination || '--';
+            document.getElementById('displayCreated').textContent = formatDate(data.created_at);
+            document.getElementById('displayEstDelivery').textContent = formatDate(data.estimated_delivery);
+
+            // Update contact info
+            document.getElementById('senderName').textContent = data.sender_name || '--';
+            document.getElementById('senderEmail').textContent = data.sender_email || '--';
+            document.getElementById('senderPhone').textContent = data.sender_phone || '--';
+            document.getElementById('receiverName').textContent = data.receiver_name || '--';
+            document.getElementById('receiverEmail').textContent = data.receiver_email || '--';
+            document.getElementById('receiverPhone').textContent = data.receiver_phone || '--';
+
+            // Update progress
+            document.getElementById('progressFill').style.width = `${getProgress(data.status)}%`;
+
+            // Render timeline
+            renderTimeline(data.events || []);
+
+            // Show shipment details
+            showState(shipmentDetails);
+
+            // Initialize and update map
+            initMap();
+            clearMarkers();
+            
+            // Add markers
+            const bounds = [];
+            
+            // Origin marker
+            if (data.origin_lat && data.origin_lng) {
+                const originMarker = L.marker([data.origin_lat, data.origin_lng], {
+                    icon: L.divIcon({
+                        className: 'custom-marker',
+                        html: '<div style="background: #10B981; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-paper-plane"></i></div>',
+                        iconSize: [30, 30]
+                    })
+                }).addTo(map).bindPopup(`<strong>Origin</strong><br>${data.origin || 'Starting point'}`);
+                markers.push(originMarker);
+                bounds.push([data.origin_lat, data.origin_lng]);
+            }
+
+            // Current location marker
+            if (data.current_lat && data.current_lng) {
+                const currentMarker = L.marker([data.current_lat, data.current_lng], {
+                    icon: L.divIcon({
+                        className: 'custom-marker',
+                        html: '<div style="background: #3B82F6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-truck"></i></div>',
+                        iconSize: [30, 30]
+                    })
+                }).addTo(map).bindPopup(`<strong>Current Location</strong><br>${data.current_location || 'In Transit'}`);
+                markers.push(currentMarker);
+                bounds.push([data.current_lat, data.current_lng]);
+            }
+
+            // Destination marker
+            if (data.dest_lat && data.dest_lng) {
+                const destMarker = L.marker([data.dest_lat, data.dest_lng], {
+                    icon: L.divIcon({
+                        className: 'custom-marker',
+                        html: '<div style="background: #EF4444; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-flag"></i></div>',
+                        iconSize: [30, 30]
+                    })
+                }).addTo(map).bindPopup(`<strong>Destination</strong><br>${data.destination || 'End point'}`);
+                markers.push(destMarker);
+                bounds.push([data.dest_lat, data.dest_lng]);
+            }
+
+            // Fit map to bounds
+            if (bounds.length > 0) {
+                map.fitBounds(bounds, { padding: [50, 50] });
+            }
+
+            // Draw path
+            if (bounds.length >= 2) {
+                const polyline = L.polyline(bounds, {
+                    color: '#3B82F6',
+                    weight: 3,
+                    opacity: 0.7,
+                    dashArray: '10, 10'
                 }).addTo(map);
+                markers.push(polyline);
             }
-
-            marker = L.marker([lat, lng])
-                .addTo(map)
-                .bindPopup(`<b>${data.tracking_number}</b><br>${data.status.toUpperCase()}`);
         }
 
-        function showError(message) {
-            const errorState = document.getElementById('errorState');
-            errorState.textContent = '❌ ' + message;
-            errorState.classList.add('active');
-            document.querySelector('.empty-state').classList.remove('active');
-            document.getElementById('trackingContainer').classList.remove('active');
+        // Share tracking
+        function shareTracking() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Track Shipment - TTCP Worldwide',
+                    url: url
+                });
+            } else {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Tracking link copied to clipboard!');
+                });
+            }
         }
 
-        // Load on page load
-        window.addEventListener('DOMContentLoaded', async () => {
-            const trackingNumber = getTrackingNumber();
+        // Event listeners
+        trackBtn.addEventListener('click', () => {
+            trackShipment(trackingInput.value);
+        });
+
+        trackingInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                trackShipment(trackingInput.value);
+            }
+        });
+
+        // Check URL for tracking number
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const trackingNumber = urlParams.get('number') || urlParams.get('tracking');
+            
             if (trackingNumber) {
-                document.getElementById('trackingNumber').value = trackingNumber;
-                await loadTrackingData(trackingNumber);
+                trackingInput.value = trackingNumber;
+                trackShipment(trackingNumber);
             }
         });
-        // Allow Enter key
-        document.getElementById('trackingNumber').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchTracking();
-        });
+
+        // Check if user is logged in and update nav
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/auth/profile/');
+                if (response.ok) {
+                    // User is logged in
+                    document.getElementById('navAuth').style.display = 'none';
+                    document.getElementById('navAuthLoggedIn').style.display = 'flex';
+                }
+            } catch (error) {
+                // User is not logged in, keep default nav
+            }
+        }
+        checkAuthStatus();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const navAuth = document.getElementById('navAuth');
+        const navAuthLoggedIn = document.getElementById('navAuthLoggedIn');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                
+                if (navAuth && navAuth.style.display !== 'none') {
+                    navAuth.classList.toggle('active');
+                }
+                if (navAuthLoggedIn && navAuthLoggedIn.style.display !== 'none') {
+                    navAuthLoggedIn.classList.toggle('active');
+                }
+            });
+        }
     </script>
 </body>
 </html>

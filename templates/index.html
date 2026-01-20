@@ -3,2347 +3,813 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TTCP Worldwide Shipping Company - Fast, Secure & Reliable Global Courier Services with Real-Time GPS Tracking.">
-    <meta name="keywords" content="courier services, package tracking, express delivery, shipping, logistics, international delivery, real-time tracking">
-    <title>TTCP WorldWide Global Tracking</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-blue: #004B9C;
-            --secondary-blue: #0066FF;
-            --accent-color: #FF6B35;
-            --white: #FFFFFF;
-            --light-bg: #F8FAFC;
-            --dark-text: #1A202C;
-            --gray-text: #718096;
-            --border-light: #E2E8F0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: var(--white);
-            color: var(--dark-text);
-            line-height: 1.6;
-            width: 100%;
-            overflow-x: hidden;
-        }
-
-        main {
-            width: 100%;
-            overflow-x: hidden;
-        }
-
-        section {
-            width: 100%;
-            box-sizing: border-box;
-            overflow-x: hidden;
-        }
-
-        /* Header/Navigation */
-        header {
-            background: var(--white);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-            box-sizing: border-box;
-            overflow-x: hidden;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0.8rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            text-decoration: none;
-            color: var(--dark-text);
-            flex-wrap: nowrap;
-            white-space: nowrap;
-        }
-
-        .logo-img {
-            height: 48px;
-            width: auto;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .logo-text {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        nav {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            flex: 1;
-            margin-left: 3rem;
-        }
-
-        nav a {
-            color: var(--gray-text);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        nav a:hover {
-            color: var(--primary-blue);
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--secondary-blue);
-            transition: width 0.3s ease;
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        .nav-auth {
-            display: flex;
-            gap: 1rem;
-            margin-left: auto;
-        }
-
-        .nav-auth a {
-            padding: 0.6rem 1.4rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .nav-auth .login {
-            color: var(--primary-blue);
-            background: transparent;
-            border: 2px solid var(--primary-blue);
-            transition: all 0.3s ease;
-        }
-
-        .nav-auth .login:hover {
-            background: var(--primary-blue);
-            color: var(--white);
-        }
-
-        .nav-auth .register {
-            background: var(--secondary-blue);
-            color: var(--white);
-            transition: all 0.3s ease;
-        }
-
-        .nav-auth .register:hover {
-            background: var(--primary-blue);
-            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Hero Section */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            padding: 4rem 2rem;
-            margin: 0 auto;
-            margin-top: 1rem;
-            width: 100%;
-            box-sizing: border-box;
-            max-width: 1400px;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            color: var(--primary-blue);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            font-weight: 800;
-        }
-
-        .hero-content p {
-            font-size: 1.15rem;
-            color: var(--gray-text);
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.25);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.35);
-        }
-
-        .btn-secondary {
-            background: var(--light-bg);
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary-blue);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--secondary-blue);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--gray-text);
-            margin-top: 0.3rem;
-        }
-
-        .hero-visual {
-            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
-            border-radius: 15px;
-            padding: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 400px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-visual::before {
-            content: '';
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(0, 102, 255, 0.1);
-            border-radius: 50%;
-            top: -50px;
-            right: -50px;
-        }
-
-        .hero-visual::after {
-            content: '';
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: rgba(0, 75, 156, 0.1);
-            border-radius: 50%;
-            bottom: -40px;
-            left: -40px;
-        }
-
-        .shipping-illustration {
-            font-size: 6rem;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
-            }
-            50% { 
-                box-shadow: 0 0 40px rgba(0, 102, 255, 0.6);
-            }
-        }
-
-        @keyframes slide-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Tracking Input Styles */
-        .tracking-box {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            animation: slide-in-up 0.8s ease-out;
-            margin-bottom: 2rem;
-        }
-
-        .tracking-box h3 {
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .tracking-box p {
-            color: var(--gray-text);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .tracking-input-group {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .tracking-input-group input {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .tracking-input-group input:focus {
-            outline: none;
-            border-color: var(--secondary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
-        }
-
-        .tracking-input-group input::placeholder {
-            color: var(--medium-gray);
-        }
-
-        .track-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .track-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
-        }
-
-        .track-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Stats Badge Styles */
-        .stats-badge {
-            background: var(--white);
-            padding: 1.5rem 2rem;
-            border-radius: 10px;
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-top: 1.5rem;
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        .stats-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            text-align: center;
-        }
-
-        .stats-item i {
-            font-size: 1.5rem;
-            color: var(--secondary-blue);
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        .stats-number {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--secondary-blue);
-            display: block;
-        }
-
-        .stats-label {
-            font-size: 0.8rem;
-            color: var(--gray-text);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-
-        .stats-divider {
-            width: 2px;
-            height: 40px;
-            background: var(--border-light);
-        }
-
-        /* Hero visual enhanced animation */
-        .hero-visual {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .hero-visual::before {
-            animation: pulse-glow 3s ease-in-out infinite;
-        }
-
-        /* Sections */
-        section {
-            padding: 5rem 0;
-        }
-
-        section:nth-child(even) {
-            background: var(--light-bg);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .section-tag {
-            display: inline-block;
-            background: rgba(0, 102, 255, 0.1);
-            color: var(--secondary-blue);
-            padding: 0.6rem 1.5rem;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            color: var(--dark-text);
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray-text);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.8;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 0 1rem;
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3.5rem;
-        }
-
-        .feature-card {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 102, 255, 0.15);
-            border-color: var(--secondary-blue);
-        }
-
-        .feature-icon {
-            font-size: 2.8rem;
-            color: var(--secondary-blue);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            color: var(--dark-text);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .feature-card p {
-            color: var(--gray-text);
-            line-height: 1.7;
-        }
-
-        /* Map Section */
-        .map-section {
-            margin-top: 3rem;
-            background: var(--white);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        #tracking-map {
-            width: 100%;
-            height: 500px;
-            border-radius: 12px;
-        }
-
-        .map-info {
-            background: var(--light-bg);
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .map-info h3 {
-            color: var(--primary-blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .map-info p {
-            color: var(--gray-text);
-        }
-
-        /* How It Works */
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2rem;
-            margin-top: 3.5rem;
-        }
-
-        .step-card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .step-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-        }
-
-        .step-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
-            color: var(--white);
-            border-radius: 50%;
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin: 0 auto 1.5rem;
-        }
-
-        .step-card h3 {
-            font-size: 1.15rem;
-            color: var(--dark-text);
-            margin-bottom: 0.8rem;
-            font-weight: 700;
-        }
-
-        .step-card p {
-            color: var(--gray-text);
-            font-size: 0.95rem;
-        }
-
-        /* Services Showcase */
-        .services-showcase {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-top: 3.5rem;
-            align-items: stretch;
-        }
-
-        .service-item {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: flex-start;
-            padding: 2rem;
-            background: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-
-        .service-item:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            transform: translateY(-4px);
-        }
-
-        .service-icon-large {
-            font-size: 2.5rem;
-            color: var(--secondary-blue);
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .service-content h3 {
-            color: var(--dark-text);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .service-content p {
-            color: var(--gray-text);
-            font-size: 0.95rem;
-        }
-
-        /* CTA Section */
-        .cta-full {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            color: var(--white);
-            padding: 4rem 2rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .cta-full h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-        }
-
-        .cta-full p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-        }
-
-        /* Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3.5rem;
-        }
-
-        .testimonial-card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border-left: 4px solid var(--secondary-blue);
-        }
-
-        .testimonial-stars {
-            color: #FFA500;
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-text {
-            color: var(--gray-text);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            font-weight: 700;
-            color: var(--dark-text);
-        }
-
-        /* FAQ Section */
-        .faq-container {
-            max-width: 700px;
-            margin: 3rem auto;
-            width: 100%;
-            padding: 0 1rem;
-            box-sizing: border-box;
-        }
-
-        .faq-item {
-            background: var(--white);
-            margin-bottom: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05) 0%, rgba(0, 75, 156, 0.05) 100%);
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: var(--dark-text);
-            border: none;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question:hover {
-            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 75, 156, 0.1) 100%);
-        }
-
-        .faq-answer {
-            padding: 1.5rem;
-            color: var(--gray-text);
-            border-top: 1px solid var(--border-light);
-            line-height: 1.8;
-        }
-
-        .faq-icon {
-            color: var(--secondary-blue);
-            font-weight: 700;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark-text);
-            color: var(--white);
-            padding: 3rem 2rem 1.5rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 2rem;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .footer-column h4 {
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column a {
-            color: #A0AEC0;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.8rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-column a:hover {
-            color: var(--secondary-blue);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #A0AEC0;
-            font-size: 0.9rem;
-        }
-
-        /* Back to Top */
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--secondary-blue);
-            color: var(--white);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
-            z-index: 999;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background: var(--primary-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 0 1.5rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-                font-weight: 700;
-                letter-spacing: -0.5px;
-            }
-
-            .nav-container {
-                padding: 0 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-                padding: 0.7rem 0.5rem;
-                align-items: flex-start;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .logo-section {
-                display: flex;
-                align-items: center;
-                gap: 0.6rem;
-                order: 1;
-                width: auto;
-                margin-bottom: 0;
-                flex-shrink: 0;
-            }
-
-            .logo-section img {
-                max-width: 42px;
-                height: auto;
-                filter: drop-shadow(0 2px 4px rgba(0, 75, 156, 0.15));
-            }
-
-            .logo-text {
-                font-size: 0.9rem;
-                font-weight: 700;
-                letter-spacing: -0.3px;
-                display: none;
-            }
-
-            nav {
-                order: 2;
-                width: 100%;
-                gap: 0.25rem;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-            }
-
-            nav a {
-                font-size: 0.7rem;
-                padding: 0.35rem 0.5rem;
-                font-weight: 500;
-                letter-spacing: -0.3px;
-                white-space: nowrap;
-            }
-
-            .nav-auth {
-                order: 3;
-                width: 100%;
-                margin-left: 0;
-                margin-top: 0.5rem;
-                display: flex;
-                gap: 0.5rem;
-            }
-
-            .nav-auth a {
-                flex: 1;
-                text-align: center;
-                padding: 0.55rem 0.5rem;
-                font-size: 0.82rem;
-                font-weight: 600;
-                border-radius: 6px;
-            }
-
-            .container {
-                padding: 0 1rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .hero {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                padding: 2.5rem 1rem;
-                margin: 0 auto;
-                margin-top: 0;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .hero > .container {
-                grid-template-columns: 1fr !important;
-                gap: 2rem !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-            }
-
-            .hero-content h1 {
-                font-size: 2.2rem;
-                line-height: 1.3;
-                margin-bottom: 1.2rem;
-                font-weight: 800;
-                letter-spacing: -1px;
-            }
-
-            .hero-content p {
-                font-size: 0.98rem;
-                margin-bottom: 1.8rem;
-                line-height: 1.65;
-                color: #555;
-            }
-
-            .cta-buttons {
-                gap: 1rem;
-                margin-bottom: 1.5rem;
-                flex-wrap: wrap;
-            }
-
-            .btn {
-                padding: 0.85rem 1.4rem;
-                font-size: 0.93rem;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: all 0.3s ease;
-            }
-
-            .hero-visual {
-                min-height: 280px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 12px;
-            }
-
-            .shipping-illustration {
-                font-size: 3.8rem;
-            }
-
-            .hero-stats {
-                flex-direction: row;
-                gap: 2rem;
-                margin-top: 1.5rem;
-                justify-content: space-around;
-            }
-
-            .stat {
-                padding: 0.8rem 0;
-                text-align: center;
-            }
-
-            .stat-number {
-                font-size: 1.8rem;
-                font-weight: 800;
-                letter-spacing: -0.5px;
-            }
-
-            .stat-label {
-                font-size: 0.8rem;
-                margin-top: 0.4rem;
-                font-weight: 500;
-            }
-
-            .tracking-box {
-                padding: 1.8rem;
-                margin: 1.8rem 0;
-                border-radius: 10px;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            }
-
-            .tracking-box h3 {
-                font-size: 1.25rem;
-                margin-bottom: 0.6rem;
-                font-weight: 700;
-                letter-spacing: -0.3px;
-            }
-
-            .tracking-box p {
-                font-size: 0.92rem;
-                margin-bottom: 1.2rem;
-                line-height: 1.5;
-            }
-
-            .tracking-input-group {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-
-            .tracking-input-group input {
-                width: 100% !important;
-                padding: 0.85rem 1rem;
-                font-size: 0.98rem;
-                border-radius: 8px;
-                border: 2px solid #e0e0e0;
-                box-sizing: border-box;
-            }
-
-            .track-btn {
-                width: 100% !important;
-                min-height: 44px;
-                padding: 0.85rem 1.2rem;
-                font-size: 0.96rem;
-                border-radius: 8px;
-                font-weight: 600;
-                box-sizing: border-box;
-            }
-
-            .stats-badge {
-                flex-direction: row;
-                gap: 1.5rem;
-                padding: 1.2rem;
-                border-radius: 10px;
-                justify-content: space-around;
-            }
-
-            .stats-item {
-                padding: 0.8rem 0;
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 0.4rem;
-            }
-
-            .stats-divider {
-                width: 2px;
-                height: 40px;
-                background: #e0e0e0;
-            }
-
-            .section-title {
-                font-size: 1.75rem;
-                margin: 2.5rem 0 1.2rem;
-                font-weight: 700;
-                letter-spacing: -0.5px;
-            }
-
-            .services-showcase {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 1.2rem;
-                padding: 0;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .service-card {
-                padding: 1.3rem;
-                border-radius: 10px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-                transition: all 0.3s ease;
-            }
-
-            .service-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 8px 20px rgba(0, 102, 255, 0.12);
-            }
-
-            .service-card h3 {
-                font-size: 1.15rem;
-                margin-bottom: 0.5rem;
-                font-weight: 700;
-                letter-spacing: -0.3px;
-            }
-
-            .service-card p {
-                font-size: 0.92rem;
-                line-height: 1.5;
-                color: #666;
-            }
-
-            .service-item {
-                flex-direction: column;
-                padding: 1.3rem;
-                gap: 0.8rem;
-                border-radius: 10px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            }
-
-            .service-icon-large {
-                font-size: 2.4rem;
-                min-width: auto;
-            }
-
-            .service-content h3 {
-                font-size: 1.15rem;
-                font-weight: 700;
-                letter-spacing: -0.3px;
-            }
-
-            .service-content p {
-                font-size: 0.92rem;
-                line-height: 1.5;
-                color: #666;
-            }
-
-            #tracking-map {
-                height: 320px;
-                border-radius: 10px;
-                overflow: hidden;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .faq-container {
-                width: 100%;
-                padding: 0 1rem;
-                box-sizing: border-box;
-                margin: 3rem auto;
-            }
-
-            .faq-item {
-                margin-bottom: 1rem;
-                border-radius: 10px;
-            }
-
-            .faq-question {
-                padding: 1.5rem;
-                font-size: 0.95rem;
-            }
-
-            .faq-answer {
-                padding: 1.5rem;
-                font-size: 0.92rem;
-            }
-
-            button {
-                min-height: 44px;
-                padding: 0.85rem 1.2rem;
-                font-size: 0.96rem;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: all 0.3s ease;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .nav-container {
-                flex-direction: row;
-                gap: 0.3rem;
-                padding: 0.5rem 0.4rem;
-                width: 100%;
-                box-sizing: border-box;
-                flex-wrap: wrap;
-                align-items: center;
-            }
-
-            .logo-section {
-                width: auto;
-                order: 1;
-                margin-bottom: 0;
-                justify-content: flex-start;
-                flex-shrink: 0;
-            }
-
-            .logo-text {
-                display: none;
-            }
-
-            .logo-section img {
-                max-width: 38px;
-                height: auto;
-            }
-
-            nav {
-                order: 2;
-                width: auto;
-                gap: 0.15rem;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-            }
-
-            nav a {
-                font-size: 0.65rem;
-                padding: 0.3rem 0.4rem;
-            }
-                justify-content: center;
-                gap: 0.3rem;
-            }
-
-            nav a {
-                font-size: 0.75rem;
-                padding: 0.35rem 0.5rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .nav-auth {
-                order: 3;
-                width: 100%;
-                gap: 0.4rem;
-                margin-top: 0.4rem;
-            }
-
-            .nav-auth a {
-                flex: 1;
-                padding: 0.45rem 0.3rem;
-                font-size: 0.75rem;
-                text-align: center;
-            }
-
-            .container {
-                padding: 0 0.8rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .hero {
-                padding: 1.8rem 0.8rem;
-                gap: 1.2rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .hero > .container {
-                padding: 0 !important;
-                margin: 0 !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-            }
-
-            .hero-content h1 {
-                font-size: 1.65rem;
-                line-height: 1.25;
-                margin-bottom: 0.9rem;
-                font-weight: 800;
-                letter-spacing: -0.8px;
-            }
-
-            .hero-content p {
-                font-size: 0.88rem;
-                margin-bottom: 1.2rem;
-                line-height: 1.55;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                gap: 0.7rem;
-                margin-bottom: 1.2rem;
-            }
-
-            .btn {
-                width: 100%;
-                padding: 0.75rem 1rem;
-                font-size: 0.88rem;
-                text-align: center;
-                justify-content: center;
-                border-radius: 8px;
-                box-sizing: border-box;
-            }
-
-            .hero-visual {
-                min-height: 240px;
-                border-radius: 10px;
-            }
-
-            .shipping-illustration {
-                font-size: 3.2rem;
-            }
-
-            .hero-stats {
-                gap: 1rem;
-                padding: 0;
-                flex-direction: row;
-            }
-
-            .stat {
-                padding: 0.6rem 0;
-                flex: 1;
-                text-align: center;
-            }
-
-            .stat-number {
-                font-size: 1.4rem;
-                font-weight: 800;
-            }
-
-            .stat-label {
-                font-size: 0.72rem;
-                margin-top: 0.3rem;
-                font-weight: 600;
-            }
-
-            .tracking-box {
-                padding: 1.4rem;
-                margin: 1.2rem 0;
-                border-radius: 9px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            }
-
-            .tracking-box h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.4rem;
-                font-weight: 700;
-            }
-
-            .tracking-box p {
-                font-size: 0.84rem;
-                margin-bottom: 0.9rem;
-                line-height: 1.4;
-            }
-
-            .tracking-input-group {
-                flex-direction: column;
-                gap: 0.6rem;
-            }
-
-            .tracking-input-group input {
-                width: 100% !important;
-                padding: 0.7rem 0.9rem;
-                font-size: 0.92rem;
-                border-radius: 7px;
-                border: 2px solid #e5e5e5;
-                box-sizing: border-box;
-            }
-
-            .track-btn {
-                width: 100% !important;
-                min-height: 40px;
-                padding: 0.7rem 1rem;
-                font-size: 0.9rem;
-                border-radius: 7px;
-                font-weight: 600;
-                box-sizing: border-box;
-            }
-
-            .section-title {
-                font-size: 1.4rem;
-                margin: 1.8rem 0 0.9rem;
-                font-weight: 700;
-                letter-spacing: -0.4px;
-            }
-
-            .services-showcase {
-                grid-template-columns: 1fr;
-                gap: 0.9rem;
-                padding: 0;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .service-card {
-                padding: 1rem;
-                border-radius: 9px;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
-            }
-
-            .service-card h3 {
-                font-size: 1.02rem;
-                margin-bottom: 0.4rem;
-                font-weight: 700;
-                letter-spacing: -0.2px;
-            }
-
-            .service-card p {
-                font-size: 0.84rem;
-                line-height: 1.4;
-            }
-
-            .service-item {
-                flex-direction: column;
-                padding: 1rem;
-                gap: 0.6rem;
-                border-radius: 9px;
-                text-align: center;
-            }
-
-            .service-icon-large {
-                font-size: 2rem;
-            }
-
-            .service-content h3 {
-                font-size: 1.02rem;
-                font-weight: 700;
-            }
-
-            .service-content p {
-                font-size: 0.84rem;
-                line-height: 1.4;
-            }
-
-            #tracking-map {
-                height: 280px;
-                border-radius: 9px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .stats-badge {
-                flex-direction: column;
-                gap: 0.7rem;
-                padding: 1rem;
-                border-radius: 9px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .stats-item {
-                padding: 0.6rem 0;
-            }
-
-            .stats-divider {
-                width: 100%;
-                height: 1px;
-            }
-
-            .faq-container {
-                width: 100%;
-                padding: 0 0.8rem;
-                box-sizing: border-box;
-                margin: 2rem auto;
-            }
-
-            .faq-item {
-                margin-bottom: 0.9rem;
-                border-radius: 9px;
-            }
-
-            .faq-question {
-                padding: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .faq-answer {
-                padding: 1rem;
-                font-size: 0.84rem;
-            }
-
-            button {
-                min-height: 40px;
-                padding: 0.7rem 1rem;
-                font-size: 0.9rem;
-                border-radius: 7px;
-                box-sizing: border-box;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 0.3rem;
-                padding: 0.6rem 0.4rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .logo-section {
-                margin-bottom: 0.3rem;
-            }
-
-            .logo-section img {
-                max-width: 44px;
-            }
-
-            nav {
-                gap: 0.2rem;
-            }
-
-            nav a {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.4rem;
-            }
-
-            .nav-auth a {
-                font-size: 0.7rem;
-                padding: 0.35rem 0.2rem;
-            }
-
-            .container {
-                padding: 0 0.6rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .hero {
-                padding: 1.4rem 0.6rem;
-                gap: 1rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .hero-content h1 {
-                font-size: 1.45rem;
-                line-height: 1.2;
-                margin-bottom: 0.8rem;
-                font-weight: 800;
-                letter-spacing: -0.7px;
-            }
-
-            .hero-content p {
-                font-size: 0.82rem;
-                margin-bottom: 1rem;
-                line-height: 1.45;
-            }
-
-            .cta-buttons {
-                gap: 0.6rem;
-                margin-bottom: 1rem;
-            }
-
-            .btn {
-                padding: 0.65rem 0.9rem;
-                font-size: 0.82rem;
-                min-height: 36px;
-                box-sizing: border-box;
-            }
-
-            .hero-visual {
-                min-height: 200px;
-                border-radius: 9px;
-            }
-
-            .shipping-illustration {
-                font-size: 2.8rem;
-            }
-
-            .hero-stats {
-                gap: 0.8rem;
-            }
-
-            .stat-number {
-                font-size: 1.2rem;
-            }
-
-            .stat-label {
-                font-size: 0.68rem;
-            }
-
-            .tracking-box {
-                padding: 1.1rem;
-                margin: 0.9rem 0;
-                border-radius: 8px;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
-            }
-
-            .tracking-box h3 {
-                font-size: 1rem;
-                margin-bottom: 0.3rem;
-                font-weight: 700;
-            }
-
-            .tracking-box p {
-                font-size: 0.78rem;
-                margin-bottom: 0.7rem;
-                line-height: 1.35;
-            }
-
-            .tracking-input-group input {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.88rem;
-                box-sizing: border-box;
-            }
-
-            .track-btn {
-                min-height: 38px;
-                padding: 0.6rem 0.9rem;
-                font-size: 0.85rem;
-                border-radius: 7px;
-                box-sizing: border-box;
-            }
-
-            .section-title {
-                font-size: 1.25rem;
-                margin: 1.4rem 0 0.8rem;
-                font-weight: 700;
-            }
-
-            .services-showcase {
-                gap: 0.7rem;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .service-card {
-                padding: 0.9rem;
-                border-radius: 8px;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
-            }
-
-            .service-card h3 {
-                font-size: 0.95rem;
-                margin-bottom: 0.3rem;
-                font-weight: 700;
-            }
-
-            .service-card p {
-                font-size: 0.78rem;
-                line-height: 1.35;
-            }
-
-            .service-item {
-                padding: 0.9rem;
-                gap: 0.5rem;
-                border-radius: 8px;
-            }
-
-            .service-icon-large {
-                font-size: 1.8rem;
-            }
-
-            .service-content h3 {
-                font-size: 0.95rem;
-            }
-
-            .service-content p {
-                font-size: 0.78rem;
-                line-height: 1.35;
-            }
-
-            #tracking-map {
-                height: 250px;
-                border-radius: 8px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .stats-badge {
-                gap: 0.5rem;
-                padding: 0.8rem;
-                border-radius: 8px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .stats-item {
-                padding: 0.5rem 0;
-            }
-
-            .faq-container {
-                width: 100%;
-                padding: 0 0.6rem;
-                box-sizing: border-box;
-                margin: 1.5rem auto;
-            }
-
-            .faq-item {
-                margin-bottom: 0.8rem;
-                border-radius: 8px;
-            }
-
-            .faq-question {
-                padding: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .faq-answer {
-                padding: 1rem;
-                font-size: 0.8rem;
-            }
-
-            button {
-                min-height: 36px;
-                padding: 0.6rem 0.9rem;
-                font-size: 0.82rem;
-                border-radius: 7px;
-                box-sizing: border-box;
-            }
-        }
-    </style>
+    <meta name="description" content="TTCP Worldwide - Global logistics and shipment tracking. Track your packages in real-time with our advanced tracking system.">
+    <title>TTCP Worldwide | Global Logistics & Tracking</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <div class="nav-container container">
-            <a href="#home" class="logo-section">
-                <svg class="logo-img" viewBox="0 0 200 200" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Globe background -->
-                    <circle cx="100" cy="100" r="95" fill="#004B9C" opacity="0.1" stroke="#0066FF" stroke-width="2"/>
-                    <!-- Globe continents representation -->
-                    <circle cx="100" cy="100" r="70" fill="none" stroke="#0066FF" stroke-width="1.5" opacity="0.3"/>
-                    <!-- Package/Box -->
-                    <path d="M 65 70 L 100 50 L 135 70 L 135 120 L 65 120 Z" fill="#FF6B35" stroke="#004B9C" stroke-width="2" stroke-linejoin="round"/>
-                    <!-- Box top -->
-                    <line x1="100" y1="50" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5"/>
-                    <line x1="65" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                    <line x1="135" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                    <!-- Tracking arrow -->
-                    <path d="M 110 140 Q 130 130 140 115" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,2"/>
-                    <polygon points="140,115 145,105 150,120" fill="#0066FF"/>
-                </svg>
-                <span class="logo-text">TTCP Worldwide</span>
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="/" class="logo-section">
+                <img src="/static/images/logo.png" alt="TTCP Worldwide" class="logo-img">
+                <span class="logo-text">TTCP <span>Worldwide</span></span>
             </a>
-            <nav>
-                <a href="#home">Home</a>
-                <a href="#features">Services</a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#services">Services</a>
+                <a href="#features">Features</a>
                 <a href="#how-it-works">How It Works</a>
-                <a href="#tracking-live">Track Live</a>
-                <a href="#testimonials">Reviews</a>
+                <a href="#testimonials">Testimonials</a>
                 <a href="#faq">FAQ</a>
-            </nav>
-            <div class="nav-auth">
-                <a href="/signin/" class="login">
-                    <i class="fas fa-sign-in-alt"></i> Login
+            </div>
+            
+            <div class="nav-auth" id="navAuth">
+                <a href="/signin" class="btn btn-secondary btn-sm">Sign In</a>
+                <a href="/signup" class="btn btn-primary btn-sm">Get Started</a>
+            </div>
+            <div class="nav-auth nav-auth-logged-in" id="navAuthLoggedIn" style="display: none;">
+                <a href="/profile" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-user"></i> My Profile
                 </a>
-                <a href="/signup/" class="register">
-                    <i class="fas fa-rocket"></i> Get Started
+                <a href="/auth/logout/" class="btn btn-primary btn-sm">
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
-        </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-            <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
                 <div class="hero-content">
-                    <h1>Global Package Tracking Made Simple</h1>
-                    <p>Experience lightning-fast shipping with real-time GPS tracking, 24/7 support, and guaranteed on-time delivery to 200+ countries worldwide.</p>
-
-                    <div class="cta-buttons">
-                        <a href="/signup/" class="btn btn-primary">
-                            <i class="fas fa-user-plus"></i> Start Shipping
-                        </a>
-                        <a href="#tracking-live" class="btn btn-secondary">
-                            <i class="fas fa-map-location-dot"></i> Try Live Map
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="shipping-illustration">
-                        <i class="fas fa-shipping-fast"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tracking Input Box Below Illustration -->
-            <div class="container" style="margin-top: 3rem;">
-                <div class="tracking-box">
-                    <h3><i class="fas fa-search"></i> Track Your Package</h3>
-                    <p>Enter your tracking number to monitor your shipment in real-time</p>
-                    <div class="tracking-input-group">
-                        <input type="text" id="tracking-number" placeholder="Enter tracking number (e.g., TTCP123456789)" maxlength="50">
-                        <button class="track-btn" onclick="trackPackage()">
-                            <i class="fas fa-search"></i> Track
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Stats Badge -->
-                <div class="stats-badge" style="margin-top: 2rem;">
-                    <div class="stats-item">
-                        <i class="fas fa-users"></i>
-                        <div>
-                            <span class="stats-number" data-count="50000">50,000</span>
-                            <span class="stats-label">Active Users</span>
-                        </div>
-                    </div>
-                    <div class="stats-divider"></div>
-                    <div class="stats-item">
-                        <i class="fas fa-box"></i>
-                        <div>
-                            <span class="stats-number" data-count="1000000">1M+</span>
-                            <span class="stats-label">Packages Tracked</span>
-                        </div>
-                    </div>
-                    <div class="stats-divider"></div>
-                    <div class="stats-item">
+                    <div class="hero-badge">
                         <i class="fas fa-globe"></i>
+                        <span>Trusted by 10,000+ businesses worldwide</span>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Global Shipping <br>
+                        <span class="highlight">Made Simple</span>
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Track your shipments in real-time with our advanced logistics platform. 
+                        Fast, reliable, and transparent shipping solutions for businesses of all sizes.
+                    </p>
+                    
+                    <div class="hero-cta">
+                        <a href="#track" class="btn btn-primary btn-lg">
+                            <i class="fas fa-search"></i>
+                            Track Shipment
+                        </a>
+                        <a href="#services" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-arrow-right"></i>
+                            Our Services
+                        </a>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="150" data-suffix="+">0</span>
+                            <span class="stat-label">Countries Covered</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="50" data-suffix="M+">0</span>
+                            <span class="stat-label">Packages Delivered</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="99.9" data-suffix="%" data-decimal="true">0</span>
+                            <span class="stat-label">On-Time Delivery</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="tracking-card" id="track">
+                        <div class="tracking-card-header">
+                            <div class="tracking-card-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div>
+                                <div class="tracking-card-title">Track Your Package</div>
+                                <div class="tracking-card-subtitle">Enter your tracking number below</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tracking-input-group">
+                            <input type="text" class="tracking-input" id="trackingNumber" 
+                                   placeholder="Enter tracking number">
+                            <button class="btn btn-accent btn-lg" id="trackBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="tracking-features">
+                            <div class="tracking-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Real-time updates</span>
+                            </div>
+                            <div class="tracking-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>GPS tracking</span>
+                            </div>
+                            <div class="tracking-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>24/7 support</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Cards -->
+                    <div class="floating-card card-1">
+                        <div class="floating-icon success">
+                            <i class="fas fa-check"></i>
+                        </div>
                         <div>
-                            <span class="stats-number">200+</span>
-                            <span class="stats-label">Countries</span>
+                            <div class="floating-text">Delivered!</div>
+                            <div class="floating-subtext">Package #TT4892</div>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-card card-2">
+                        <div class="floating-icon warning">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div>
+                            <div class="floating-text">In Transit</div>
+                            <div class="floating-subtext">New York → London</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Live Tracking Map Section -->
-        <section id="tracking-live">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Real-Time Tracking</span>
-                    <h2 class="section-title">Track Your Shipment Live</h2>
-                    <p class="section-subtitle">Monitor your packages in real-time with our interactive global map. See exact locations, delivery times, and route optimization.</p>
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-shipping-fast"></i>
+                    Our Services
                 </div>
-                <div class="map-section">
-                    <div id="tracking-map"></div>
-                    <div class="map-info">
-                        <h3>📍 Global Coverage - 200+ Countries</h3>
-                        <p>Real-time GPS tracking with updates every 30 seconds. Customs clearance monitoring included.</p>
+                <h2 class="section-title">Complete Logistics Solutions</h2>
+                <p class="section-subtitle">
+                    From express delivery to freight shipping, we offer comprehensive solutions tailored to your needs.
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3>Air Freight</h3>
+                    <p>Fast and reliable air cargo services for time-sensitive shipments across the globe.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-ship"></i>
+                    </div>
+                    <h3>Ocean Freight</h3>
+                    <p>Cost-effective sea shipping solutions for large cargo and international trade.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Ground Shipping</h3>
+                    <p>Reliable road transportation with real-time tracking and flexible delivery options.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3>Warehousing</h3>
+                    <p>Secure storage facilities with inventory management and fulfillment services.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Express Delivery</h3>
+                    <p>Same-day and next-day delivery options for urgent shipments.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Custom Solutions</h3>
+                    <p>Tailored logistics solutions designed for your specific business requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-star"></i>
+                    Why Choose Us
+                </div>
+                <h2 class="section-title">Features That Set Us Apart</h2>
+                <p class="section-subtitle">
+                    Experience the difference with our advanced tracking technology and customer-focused approach.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Real-Time GPS Tracking</h3>
+                    <p>Monitor your shipments on an interactive map with live location updates every few minutes.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Smart Notifications</h3>
+                    <p>Receive instant alerts via SMS and email for every milestone in your shipment's journey.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure Handling</h3>
+                    <p>Your packages are protected with comprehensive insurance and secure handling protocols.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is available around the clock to assist with any inquiries.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Access detailed insights and reports about your shipping patterns and costs.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>API Integration</h3>
+                    <p>Seamlessly integrate our tracking system into your existing business applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section" id="map">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-globe-americas"></i>
+                    Global Network
+                </div>
+                <h2 class="section-title">Track Shipments Worldwide</h2>
+                <p class="section-subtitle">
+                    Our extensive network spans across 150+ countries, ensuring your packages reach any destination.
+                </p>
+            </div>
+            
+            <div class="map-container">
+                <div id="tracking-map"></div>
+                <div class="map-info">
+                    <p><i class="fas fa-info-circle"></i> Enter a tracking number above to see your shipment on the map</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-info-circle"></i>
+                    How It Works
+                </div>
+                <h2 class="section-title">Simple & Efficient Process</h2>
+                <p class="section-subtitle">
+                    Get started in minutes with our streamlined shipping and tracking process.
+                </p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Create Shipment</h3>
+                    <p>Enter package details and choose your preferred shipping method.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Get Tracking ID</h3>
+                    <p>Receive a unique tracking number for your shipment instantly.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Track in Real-Time</h3>
+                    <p>Monitor your package's journey with live GPS updates on the map.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Receive Package</h3>
+                    <p>Your package arrives safely at the destination on time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-quote-left"></i>
+                    Testimonials
+                </div>
+                <h2 class="section-title">What Our Clients Say</h2>
+                <p class="section-subtitle">
+                    Trusted by thousands of businesses and individuals around the world.
+                </p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "TTCP has transformed our supply chain operations. The real-time tracking gives us complete visibility into our shipments."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SK</div>
+                        <div class="author-info">
+                            <h4>Sarah Kim</h4>
+                            <p>Operations Manager, TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "Reliable, fast, and professional. Their customer support is exceptional and always available when we need them."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MJ</div>
+                        <div class="author-info">
+                            <h4>Michael Johnson</h4>
+                            <p>CEO, Global Retail Inc</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "We've reduced our shipping costs by 30% since switching to TTCP. The analytics dashboard helps us optimize routes."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">EA</div>
+                        <div class="author-info">
+                            <h4>Emily Anderson</h4>
+                            <p>Logistics Director, E-Shop</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Features/Services Section -->
-        <section id="features">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Our Services</span>
-                    <h2 class="section-title">Comprehensive Shipping Solutions</h2>
-                    <p class="section-subtitle">From same-day local delivery to international logistics, we've got every need covered.</p>
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-question-circle"></i>
+                    FAQ
                 </div>
-
-                <div class="services-showcase">
-                    <div class="service-item">
-                        <div class="service-icon-large">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>Express Delivery</h3>
-                            <p>Same-day and next-day delivery options for urgent shipments across major cities.</p>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon-large">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>Fully Insured</h3>
-                            <p>All packages covered with comprehensive insurance and secure handling protocols.</p>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon-large">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>International Shipping</h3>
-                            <p>Customs support and documentation assistance for seamless cross-border delivery.</p>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon-large">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>Mobile App Tracking</h3>
-                            <p>Real-time push notifications, photo proof of delivery, and instant support access.</p>
-                        </div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">
+                    Find answers to common questions about our services and tracking system.
+                </p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I track my shipment?
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer" style="display: none;">
+                        Simply enter your tracking number in the search box at the top of the page. You'll see real-time location updates, delivery status, and estimated arrival time on an interactive map.
                     </div>
                 </div>
-
-                <div class="features-grid" style="margin-top: 4rem;">
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-satellite-dish"></i></div>
-                        <h3>GPS Precision Tracking</h3>
-                        <p>Sub-meter accuracy with military-grade satellite technology. Updates every 30 seconds.</p>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What shipping methods do you offer?
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer" style="display: none;">
+                        We offer air freight, ocean freight, ground shipping, express delivery, and custom logistics solutions. Each method can be tailored to your specific needs and timeline.
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-truck"></i></div>
-                        <h3>Fleet Management</h3>
-                        <p>Optimize routes with AI-powered logistics and reduce delivery times by up to 40%.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How long does international shipping take?
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer" style="display: none;">
+                        Delivery times vary by destination and shipping method. Express air freight typically takes 1-3 business days, standard air freight 3-7 days, and ocean freight 2-6 weeks depending on the route.
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                        <h3>Analytics Dashboard</h3>
-                        <p>Comprehensive reports on delivery times, costs, and performance metrics in one place.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is my package insured?
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer" style="display: none;">
+                        Yes, all shipments include basic insurance coverage. Additional coverage options are available for high-value items. Contact our support team to learn more about our insurance options.
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                        <h3>Priority Support</h3>
-                        <p>24/7 multilingual support team available via chat, email, and phone for assistance.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
-                        <h3>Flexible Payment</h3>
-                        <p>Multiple payment options including subscriptions, pay-per-use, and enterprise plans.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                        <h3>Enterprise Security</h3>
-                        <p>Bank-level 256-bit encryption, compliance certifications, and data privacy guaranteed.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I change the delivery address?
+                        <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="faq-answer" style="display: none;">
+                        Address changes may be possible depending on the shipment status. Contact our customer support as soon as possible with your tracking number for assistance with address modifications.
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- How It Works -->
-        <section id="how-it-works">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Simple Process</span>
-                    <h2 class="section-title">Ship in 5 Easy Steps</h2>
-                    <p class="section-subtitle">Get your package on its way in minutes with our streamlined shipping process.</p>
-                </div>
-
-                <div class="steps-grid">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <h3>Create Account</h3>
-                        <p>Register for free in under 60 seconds. No credit card required to start.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <h3>Add Shipment</h3>
-                        <p>Enter recipient details, package dimensions, and weight information.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <h3>Select Service</h3>
-                        <p>Choose from express, standard, or economy shipping with transparent pricing.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">4</div>
-                        <h3>Schedule Pickup</h3>
-                        <p>We collect your package at your preferred time and location.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">5</div>
-                        <h3>Track & Receive</h3>
-                        <p>Get real-time updates and photo proof when your package arrives safely.</p>
-                    </div>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Join thousands of businesses that trust TTCP Worldwide for their shipping needs.</p>
+                <div class="cta-buttons">
+                    <a href="/signup" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket"></i>
+                        Create Account
+                    </a>
+                    <a href="#track" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-search"></i>
+                        Track Shipment
+                    </a>
                 </div>
             </div>
-        </section>
-
-        <!-- Testimonials -->
-        <section id="testimonials">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Success Stories</span>
-                    <h2 class="section-title">Trusted by Thousands</h2>
-                    <p class="section-subtitle">See what our customers have to say about TTCP Worldwide.</p>
-                </div>
-
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <div class="testimonial-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"TTCP Worldwide transformed our shipping operations. We've cut delivery times by 30% and our customers love the real-time tracking!"</p>
-                        <div class="testimonial-author">- Sarah Johnson, E-Commerce Founder</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Best customer service I've experienced. Their team resolved our international shipping issue in under 2 hours. Highly recommended!"</p>
-                        <div class="testimonial-author">- Michael Chen, Logistics Manager</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Competitive pricing, reliable service, and an intuitive interface. We've shipped over 10,000 packages with zero complaints!"</p>
-                        <div class="testimonial-author">- Emma Rodriguez, Supply Chain Director</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section id="faq">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Questions?</span>
-                    <h2 class="section-title">Frequently Asked Questions</h2>
-                    <p class="section-subtitle">Find answers to common questions about our shipping and tracking services.</p>
-                </div>
-
-                <div class="faq-container">
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(event)">
-                            <span>How accurate is your GPS tracking?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer" style="display:none;">
-                            Our GPS tracking is accurate to within 1-5 meters in most locations. We use military-grade satellite technology with updates every 30 seconds during transit.
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(event)">
-                            <span>What countries do you ship to?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer" style="display:none;">
-                            We offer shipping to 200+ countries worldwide including USA, Europe, Asia, Africa, and Oceania with full customs support for international shipments.
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(event)">
-                            <span>Is my package insured?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer" style="display:none;">
-                            Yes! All packages shipped through TTCP Worldwide include comprehensive insurance coverage. You can also opt for additional coverage for high-value items.
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(event)">
-                            <span>How quickly can I get support?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer" style="display:none;">
-                            Our average support response time is under 60 seconds. We offer 24/7 support via live chat, email, and phone in multiple languages.
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFaq(event)">
-                            <span>Can I track my package in real-time?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer" style="display:none;">
-                            Absolutely! All packages include real-time tracking with GPS updates, photo proof of delivery, and push notifications at every milestone.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Final CTA -->
-        <section>
-            <div class="container">
-                <div class="cta-full">
-                    <h2>Ready to Ship with Confidence?</h2>
-                    <p>Join thousands of businesses trusting TTCP Worldwide for their shipping needs.</p>
-                    <div class="cta-buttons">
-                        <a href="/signup/" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i> Get Started Free
-                        </a>
-                        <a href="#contact-section" class="btn btn-secondary" style="background: var(--white); color: var(--primary-blue); border: 2px solid var(--white);">
-                            <i class="fas fa-phone"></i> Contact Us
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section (Anchor) -->
-        <section id="contact-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Get In Touch</h2>
-                    <p class="section-subtitle">Have questions? Our team is ready to help you get started with TTCP Worldwide.</p>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
-                    <div style="background: var(--white); padding: 2.5rem; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
-                        <i class="fas fa-phone" style="font-size: 2.5rem; color: var(--secondary-blue); margin-bottom: 1rem; display: block;"></i>
-                        <h3 style="color: var(--dark-text); margin-bottom: 0.5rem; font-weight: 700;">Phone Support</h3>
-                        <p><a href="tel:+15733987575" style="color: var(--secondary-blue); text-decoration: none; font-weight: 600; font-size: 1.1rem;">+1 (573) 398-7575</a></p>
-                        <p style="color: var(--gray-text); font-size: 0.9rem; margin-top: 0.5rem;">Available 24/7</p>
-                    </div>
-                    <div style="background: var(--white); padding: 2.5rem; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
-                        <i class="fas fa-envelope" style="font-size: 2.5rem; color: var(--secondary-blue); margin-bottom: 1rem; display: block;"></i>
-                        <h3 style="color: var(--dark-text); margin-bottom: 0.5rem; font-weight: 700;">Email Us</h3>
-                        <p><a href="mailto:info@ttcpworldwide.com" style="color: var(--secondary-blue); text-decoration: none; font-weight: 600; font-size: 1.1rem;">info@ttcpworldwide.com</a></p>
-                        <p style="color: var(--gray-text); font-size: 0.9rem; margin-top: 0.5rem;">Response within 1 hour</p>
-                    </div>
-                    <div style="background: var(--white); padding: 2.5rem; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
-                        <i class="fas fa-map-marker-alt" style="font-size: 2.5rem; color: var(--secondary-blue); margin-bottom: 1rem; display: block;"></i>
-                        <h3 style="color: var(--dark-text); margin-bottom: 0.5rem; font-weight: 700;">Office Location</h3>
-                        <p style="color: var(--gray-text); font-size: 0.95rem;">Goldthorpe Industrial Estate<br>Commercial Road<br>S63 9BL, UK</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-column">
-                    <h4>TTCP Worldwide</h4>
-                    <p style="color: #A0AEC0; font-size: 0.9rem; margin-bottom: 1rem;">Global Courier & Tracking Services</p>
-                    <p style="color: #A0AEC0; font-size: 0.85rem;">Trusted by businesses worldwide for fast, secure, and reliable shipping solutions.</p>
+                <div class="footer-brand">
+                    <div class="logo-section">
+                        <img src="/static/images/logo.png" alt="TTCP Worldwide" class="logo-img" style="height: 40px;">
+                        <span class="logo-text">TTCP <span>Worldwide</span></span>
+                    </div>
+                    <p>Your trusted partner in global logistics. We deliver excellence, one package at a time.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
+                
                 <div class="footer-column">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#features">Services</a></li>
-                        <li><a href="/track/">Track Package</a></li>
-                        <li><a href="#contact-section">Contact</a></li>
-                        <li><a href="/signup/">Sign Up</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#track">Track Package</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#features">Features</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-column">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="#features">Express Delivery</a></li>
-                        <li><a href="#features">International Shipping</a></li>
-                        <li><a href="#features">Standard Delivery</a></li>
-                        <li><a href="#features">Fleet Management</a></li>
+                        <li><a href="#">Air Freight</a></li>
+                        <li><a href="#">Ocean Freight</a></li>
+                        <li><a href="#">Ground Shipping</a></li>
+                        <li><a href="#">Warehousing</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-column">
-                    <h4>Support & Info</h4>
+                    <h4>Support</h4>
                     <ul>
-                        <li><a href="#contact-section">Contact Us</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#faq">FAQ</a></li>
-                        <li><a href="/signin/">Sign In</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2026 TTCP Worldwide Inc. All rights reserved. | <a href="#" style="color: #A0AEC0; text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: #A0AEC0; text-decoration: none;">Terms of Service</a></p>
+                <p>&copy; 2025 TTCP Worldwide. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <button class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Track Package Function
-        function trackPackage() {
-            const trackingNumber = document.getElementById('tracking-number').value.trim();
-            if (trackingNumber) {
-                // Redirect to track page with tracking number
-                window.location.href = '/track/?tracking=' + encodeURIComponent(trackingNumber);
-            } else {
-                alert('Please enter a tracking number');
-            }
-        }
-
-        // Allow Enter key to trigger tracking
-        document.addEventListener('DOMContentLoaded', function() {
-            const trackingInput = document.getElementById('tracking-number');
-            if (trackingInput) {
-                trackingInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        trackPackage();
-                    }
-                });
-            }
-
-            // Animate stats numbers on page load
-            animateStatsCounters();
-        });
-
-        // Animate Stats Counters
-        function animateStatsCounters() {
-            const statsNumbers = document.querySelectorAll('[data-count]');
-            statsNumbers.forEach(element => {
-                const targetValue = parseInt(element.getAttribute('data-count'));
-                const duration = 2000;
-                const start = Date.now();
-                
-                const animate = () => {
-                    const elapsed = Date.now() - start;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const currentValue = Math.floor(targetValue * progress);
-                    
-                    if (currentValue >= 1000000) {
-                        element.textContent = (currentValue / 1000000).toFixed(1) + 'M+';
-                    } else if (currentValue >= 1000) {
-                        element.textContent = (currentValue / 1000).toFixed(0) + 'K+';
-                    } else {
-                        element.textContent = currentValue.toLocaleString();
-                    }
-                    
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    }
-                };
-                
-                animate();
-            });
-        }
-
-        // Back to top functionality
-        const backToTopBtn = document.getElementById('back-to-top');
+        // Header scroll effect
+        const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('visible');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
             } else {
-                backToTopBtn.classList.remove('visible');
+                header.classList.remove('scrolled');
             }
         });
 
-        backToTopBtn.addEventListener('click', () => {
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        backToTop.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Smooth scroll for all anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href !== '#' && document.querySelector(href)) {
-                    e.preventDefault();
-                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+                
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                    faqItem.querySelector('.faq-answer').style.display = 'none';
+                });
+                
+                // Open clicked if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.display = 'block';
                 }
             });
         });
 
-        // FAQ Toggle
-        function toggleFaq(event) {
-            const question = event.currentTarget;
-            const faqItem = question.parentElement;
-            const answer = faqItem.querySelector('.faq-answer');
-            const icon = question.querySelector('.faq-icon');
-            
-            // Close all other FAQs
-            document.querySelectorAll('.faq-item').forEach(item => {
-                if (item !== faqItem) {
-                    item.querySelector('.faq-answer').style.display = 'none';
-                    item.querySelector('.faq-icon').textContent = '+';
+        // Initialize map
+        const map = L.map('tracking-map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Tracking functionality
+        const trackBtn = document.getElementById('trackBtn');
+        const trackingInput = document.getElementById('trackingNumber');
+        let currentMarker = null;
+
+        function trackShipment(trackingNumber) {
+            if (!trackingNumber.trim()) {
+                alert('Please enter a tracking number');
+                return;
+            }
+
+            // Show loading state
+            trackBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            trackBtn.disabled = true;
+
+            fetch(`/api/shipment/${encodeURIComponent(trackingNumber)}/`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Shipment not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Clear existing marker
+                    if (currentMarker) {
+                        map.removeLayer(currentMarker);
+                    }
+
+                    // Add marker and pan to location
+                    if (data.current_lat && data.current_lng) {
+                        currentMarker = L.marker([data.current_lat, data.current_lng])
+                            .addTo(map)
+                            .bindPopup(`
+                                <strong>${data.tracking_number}</strong><br>
+                                Status: ${data.status}<br>
+                                Location: ${data.current_location || 'In Transit'}
+                            `)
+                            .openPopup();
+                        
+                        map.setView([data.current_lat, data.current_lng], 6);
+                    }
+
+                    // Redirect to tracking page for full details
+                    window.location.href = `/track?number=${encodeURIComponent(trackingNumber)}`;
+                })
+                .catch(error => {
+                    alert('Shipment not found. Please check your tracking number and try again.');
+                })
+                .finally(() => {
+                    trackBtn.innerHTML = '<i class="fas fa-search"></i>';
+                    trackBtn.disabled = false;
+                });
+        }
+
+        trackBtn.addEventListener('click', () => {
+            trackShipment(trackingInput.value);
+        });
+
+        trackingInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                trackShipment(trackingInput.value);
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
 
-            // Toggle current FAQ
-            if (answer.style.display === 'none') {
-                answer.style.display = 'block';
-                icon.textContent = '−';
-            } else {
-                answer.style.display = 'none';
-                icon.textContent = '+';
+        // Counter animation for stats
+        function animateCounter(element) {
+            const target = parseFloat(element.getAttribute('data-target'));
+            const suffix = element.getAttribute('data-suffix') || '';
+            const isDecimal = element.getAttribute('data-decimal') === 'true';
+            const duration = 2000; // 2 seconds
+            const steps = 60;
+            const stepTime = duration / steps;
+            let current = 0;
+            const increment = target / steps;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                if (isDecimal) {
+                    element.textContent = current.toFixed(1) + suffix;
+                } else {
+                    element.textContent = Math.floor(current) + suffix;
+                }
+            }, stepTime);
+        }
+
+        // Intersection Observer to trigger animation when stats are visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        if (!stat.classList.contains('animated')) {
+                            stat.classList.add('animated');
+                            animateCounter(stat);
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe the hero-stats section
+        const heroStats = document.querySelector('.hero-stats');
+        if (heroStats) {
+            statsObserver.observe(heroStats);
+        }
+
+        // Check if user is logged in and update nav
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/auth/profile/');
+                if (response.ok) {
+                    // User is logged in
+                    document.getElementById('navAuth').style.display = 'none';
+                    document.getElementById('navAuthLoggedIn').style.display = 'flex';
+                }
+            } catch (error) {
+                // User is not logged in, keep default nav
             }
         }
+        checkAuthStatus();
 
-        // Initialize Map
-        if (document.getElementById('tracking-map')) {
-            const map = L.map('tracking-map').setView([20, 0], 2);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 19
-            }).addTo(map);
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const navAuth = document.getElementById('navAuth');
+        const navAuthLoggedIn = document.getElementById('navAuthLoggedIn');
 
-            // Add some sample shipping routes
-            const routes = [
-                { coords: [[40.7128, -74.0060], [51.5074, -0.1278], [35.6762, 139.6503]], name: 'NYC → London → Tokyo' },
-                { coords: [[33.9425, 18.4240], [-33.8688, 151.2093]], name: 'Cape Town → Sydney' },
-                { coords: [[48.8566, 2.3522], [31.2304, 30.0444]], name: 'Paris → Cairo' }
-            ];
-
-            routes.forEach((route, index) => {
-                L.polyline(route.coords, {
-                    color: index === 0 ? '#0066FF' : index === 1 ? '#FF6B35' : '#004B9C',
-                    weight: 3,
-                    opacity: 0.7,
-                    dashArray: '5,5'
-                }).addTo(map);
-
-                // Add markers
-                route.coords.forEach((coord, idx) => {
-                    L.circleMarker(coord, {
-                        radius: idx === 0 ? 8 : idx === route.coords.length - 1 ? 8 : 5,
-                        fillColor: index === 0 ? '#0066FF' : index === 1 ? '#FF6B35' : '#004B9C',
-                        color: '#fff',
-                        weight: 2,
-                        opacity: 1,
-                        fillOpacity: 0.8
-                    }).addTo(map).bindPopup(route.name);
-                });
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                
+                // Toggle auth buttons in mobile view
+                if (navAuth && navAuth.style.display !== 'none') {
+                    navAuth.classList.toggle('active');
+                }
+                if (navAuthLoggedIn && navAuthLoggedIn.style.display !== 'none') {
+                    navAuthLoggedIn.classList.toggle('active');
+                }
             });
         }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn?.classList.remove('active');
+                navMenu?.classList.remove('active');
+                navAuth?.classList.remove('active');
+                navAuthLoggedIn?.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>

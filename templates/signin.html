@@ -3,666 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTCP WorldWide Global Tracking</title>
+    <meta name="description" content="Sign in to your TTCP Worldwide account to access shipment tracking and logistics services.">
+    <title>Sign In | TTCP Worldwide</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Additional styles specific to auth pages */
+        .auth-features {
+            display: none;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-            max-width: 450px;
-            width: 100%;
-            padding: 40px;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        
+        @media (min-width: 1024px) {
+            .auth-page {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                padding: 0;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .auth-features {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 4rem;
+                background: var(--gradient-hero);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .auth-features::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -30%;
+                width: 600px;
+                height: 600px;
+                background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+                pointer-events: none;
+            }
+            
+            .auth-features-content {
+                position: relative;
+                z-index: 2;
+            }
+            
+            .auth-features h2 {
+                color: var(--white);
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .auth-features p {
+                color: var(--gray-400);
+                font-size: 1.1rem;
+                margin-bottom: 3rem;
+            }
+            
+            .feature-list {
+                list-style: none;
+            }
+            
+            .feature-list li {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                color: var(--gray-300);
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .feature-list li:last-child {
+                border-bottom: none;
+            }
+            
+            .feature-list i {
+                width: 40px;
+                height: 40px;
+                background: rgba(59, 130, 246, 0.2);
+                border-radius: var(--radius-md);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--secondary-light);
+            }
+            
+            .auth-form-section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                background: var(--white);
+            }
+            
+            .auth-container {
+                box-shadow: none;
+                max-width: 400px;
             }
         }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        
+        .password-toggle {
+            position: relative;
         }
-
-        .logo-section svg {
-            max-width: 100px;
-            height: auto;
-            display: block;
-            flex-shrink: 0;
+        
+        .password-toggle input {
+            padding-right: 50px;
         }
-
-        .form-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .form-header h1 {
-            color: #333;
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .form-header p {
-            color: #666;
-            font-size: 0.95em;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.95em;
-        }
-
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.95em;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-footer-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 0.9em;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .remember-me input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .remember-me label {
-            margin: 0;
-            cursor: pointer;
-            font-weight: 400;
-        }
-
-        .forgot-password {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .forgot-password:hover {
-            color: #5568d3;
-            text-decoration: underline;
-        }
-
-        .btn-signin {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
             border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 1em;
+            color: var(--gray-400);
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
+            padding: 0.25rem;
+            transition: var(--transition-normal);
         }
-
-        .btn-signin:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        
+        .toggle-password:hover {
+            color: var(--gray-600);
         }
-
-        .btn-signin:active {
-            transform: translateY(0);
-        }
-
-        .btn-signin:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
+        
         .divider {
             display: flex;
             align-items: center;
-            margin: 25px 0;
-            color: #ddd;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--gray-400);
+            font-size: 0.85rem;
         }
-
+        
         .divider::before,
         .divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: #ddd;
+            background: var(--gray-200);
         }
-
-        .divider-text {
-            padding: 0 12px;
-            color: #999;
-            font-size: 0.85em;
-            font-weight: 500;
-        }
-
+        
         .social-login {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+            display: flex;
+            gap: 1rem;
         }
-
+        
         .social-btn {
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9em;
-            transition: all 0.3s;
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            color: #333;
-        }
-
-        .social-btn:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
-        }
-
-        .signup-link {
-            text-align: center;
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 20px;
-        }
-
-        .signup-link a {
-            color: #667eea;
-            text-decoration: none;
+            gap: 0.5rem;
+            padding: 0.875rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            color: var(--gray-700);
             font-weight: 600;
-            transition: all 0.3s;
+            cursor: pointer;
+            transition: var(--transition-normal);
         }
-
-        .signup-link a:hover {
-            text-decoration: underline;
+        
+        .social-btn:hover {
+            border-color: var(--gray-300);
+            background: var(--gray-50);
         }
-
-        .error {
-            background: #fadbd8;
-            border: 2px solid #f5b7b1;
-            color: #c0392b;
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-            font-size: 0.9em;
-            border-left: 4px solid #c0392b;
-        }
-
-        .error.show {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .success {
-            background: #d4efdf;
-            border: 2px solid #abebc6;
-            color: #155724;
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-            font-size: 0.9em;
-            border-left: 4px solid #27ae60;
-        }
-
-        .success.show {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .loading {
-            text-align: center;
-            color: #667eea;
-            display: none;
-            padding: 10px;
-            font-weight: 500;
-        }
-
-        .security-badge {
-            text-align: center;
-            font-size: 0.8em;
-            color: #999;
-            margin-top: 15px;
+        
+        .remember-forgot {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 5px;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
         }
-
-        .security-badge i {
-            color: #27ae60;
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-            }
-
-            .logo-section img {
-                max-width: 80px;
-                height: auto;
-            }
-
-            .form-header h1 {
-                font-size: 1.7rem;
-                margin: 1rem 0 0.5rem;
-            }
-
-            .form-header p {
-                font-size: 0.95rem;
-            }
-
-            .form-group {
-                margin-bottom: 1rem;
-            }
-
-            .form-group input {
-                padding: 0.8rem;
-                font-size: 1rem;
-                min-height: 44px;
-            }
-
-            .form-group label {
-                font-size: 0.95rem;
-                margin-bottom: 0.4rem;
-            }
-
-            button {
-                min-height: 44px;
-                font-size: 1rem;
-                padding: 0.8rem 1.5rem;
-                width: 100%;
-            }
-
-            .social-login {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-                margin-top: 1rem;
-            }
-
-            .social-login button {
-                padding: 0.8rem;
-                font-size: 0.9rem;
-            }
-
-            .form-footer-options {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.8rem;
-                margin: 1rem 0;
-            }
-
-            .remember-me {
-                width: 100%;
-            }
-
-            .forgot-password {
-                width: 100%;
-                text-align: left;
-            }
+        
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary);
         }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem 1rem;
-                margin: 0.5rem;
-                border-radius: 12px;
-            }
-
-            .logo-section img {
-                max-width: 70px;
-            }
-
-            .form-header h1 {
-                font-size: 1.5rem;
-                margin: 0.75rem 0 0.4rem;
-            }
-
-            .form-header p {
-                font-size: 0.9rem;
-            }
-
-            .form-group {
-                margin-bottom: 0.8rem;
-            }
-
-            .form-group input {
-                padding: 0.7rem;
-                font-size: 0.95rem;
-                min-height: 40px;
-            }
-
-            .form-group label {
-                font-size: 0.9rem;
-                margin-bottom: 0.3rem;
-            }
-
-            button {
-                width: 100%;
-                min-height: 44px;
-                font-size: 0.95rem;
-                padding: 0.8rem 1rem;
-            }
-
-            .social-login {
-                gap: 0.6rem;
-            }
-
-            .social-login button {
-                padding: 0.7rem 0.5rem;
-                font-size: 0.85rem;
-            }
-
-            .form-footer-options {
-                gap: 0.6rem;
-                margin: 0.8rem 0;
-            }
-
-            .signup-link {
-                font-size: 0.9rem;
-            }
-
-            .signup-link a {
-                font-weight: 600;
-            }
+        
+        .forgot-link {
+            color: var(--secondary);
+            font-weight: 500;
         }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1.2rem 0.8rem;
-                margin: 0.25rem;
-            }
-
-            .logo-section img {
-                max-width: 60px;
-            }
-
-            .form-header h1 {
-                font-size: 1.3rem;
-                margin: 0.5rem 0 0.3rem;
-            }
-
-            .form-header p {
-                font-size: 0.85rem;
-            }
-
-            .form-group {
-                margin-bottom: 0.6rem;
-            }
-
-            .form-group input {
-                padding: 0.6rem;
-                font-size: 0.9rem;
-                min-height: 38px;
-            }
-
-            .form-group label {
-                font-size: 0.85rem;
-                margin-bottom: 0.25rem;
-            }
-
-            button {
-                width: 100%;
-                min-height: 40px;
-                font-size: 0.9rem;
-                padding: 0.7rem 0.8rem;
-            }
-
-            .social-login {
-                gap: 0.5rem;
-            }
-
-            .social-login button {
-                padding: 0.6rem 0.3rem;
-                font-size: 0.8rem;
-            }
-
-            .form-footer-options {
-                gap: 0.5rem;
-                margin: 0.6rem 0;
-            }
-
-            .remember-me label {
-                font-size: 0.85rem;
-            }
-
-            .forgot-password {
-                font-size: 0.85rem;
-            }
-
-            .signup-link {
-                font-size: 0.85rem;
-                text-align: center;
-                margin-top: 1rem;
-            }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-section">
-            <svg viewBox="0 0 200 200" width="100" height="100" xmlns="http://www.w3.org/2000/svg" style="max-width: 100px; height: auto;">
-                <!-- Globe background -->
-                <circle cx="100" cy="100" r="95" fill="#004B9C" opacity="0.1" stroke="#0066FF" stroke-width="2"/>
-                <!-- Globe continents representation -->
-                <circle cx="100" cy="100" r="70" fill="none" stroke="#0066FF" stroke-width="1.5" opacity="0.3"/>
-                <!-- Package/Box -->
-                <path d="M 65 70 L 100 50 L 135 70 L 135 120 L 65 120 Z" fill="#FF6B35" stroke="#004B9C" stroke-width="2" stroke-linejoin="round"/>
-                <!-- Box top -->
-                <line x1="100" y1="50" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5"/>
-                <line x1="65" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                <line x1="135" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                <!-- Tracking arrow -->
-                <path d="M 110 140 Q 130 130 140 115" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,2"/>
-                <polygon points="140,115 145,105 150,120" fill="#0066FF"/>
-            </svg>
-        </div>
-
-        <div class="form-header">
-            <h1>Welcome Back</h1>
-            <p>Sign in to your TTCP Worldwide account</p>
-        </div>
-
-        <div id="errorMessage" class="error"></div>
-        <div id="successMessage" class="success"></div>
-
-        <form id="signinForm">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+    <div class="auth-page">
+        <!-- Features Side (Desktop Only) -->
+        <div class="auth-features">
+            <div class="auth-features-content">
+                <h2>Welcome Back!</h2>
+                <p>Sign in to access your shipment tracking and logistics dashboard.</p>
+                
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Real-time GPS tracking for all your shipments</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-bell"></i>
+                        <span>Instant notifications on delivery status</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        <span>Detailed analytics and shipping reports</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-headset"></i>
+                        <span>24/7 customer support access</span>
+                    </li>
+                </ul>
             </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password">
-            </div>
-
-            <div class="form-footer-options">
-                <div class="remember-me">
-                    <input type="checkbox" id="remember" name="remember" value="on">
-                    <label for="remember">Remember me</label>
+        </div>
+        
+        <!-- Form Side -->
+        <div class="auth-form-section">
+            <div class="auth-container">
+                <!-- Logo -->
+                <div class="auth-logo">
+                    <a href="/">
+                        <img src="/static/images/logo.png" alt="TTCP Worldwide">
+                    </a>
                 </div>
-                <a href="#" class="forgot-password">Forgot password?</a>
+                
+                <!-- Header -->
+                <div class="auth-header">
+                    <h1>Sign In</h1>
+                    <p>Enter your credentials to access your account</p>
+                </div>
+                
+                <!-- Error/Success Messages -->
+                <div id="message" class="alert" style="display: none;"></div>
+                
+                <!-- Login Form -->
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               class="form-control" 
+                               placeholder="Enter your email"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-toggle">
+                            <input type="password" 
+                                   id="password" 
+                                   name="password" 
+                                   class="form-control" 
+                                   placeholder="Enter your password"
+                                   required>
+                            <button type="button" class="toggle-password" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="toggleIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+                </form>
+                
+                <div class="divider">or continue with</div>
+                
+                <!-- Social Login -->
+                <div class="social-login">
+                    <button class="social-btn">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button class="social-btn">
+                        <i class="fab fa-microsoft"></i>
+                        Microsoft
+                    </button>
+                </div>
+                
+                <!-- Footer -->
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="/signup">Create Account</a></p>
+                </div>
             </div>
-
-            <button type="submit" class="btn-signin">Sign In</button>
-            <div class="loading" id="loading">Signing in...</div>
-        </form>
-
-        <div class="divider">
-            <div class="divider-text">OR</div>
-        </div>
-
-        <div class="social-login">
-            <button type="button" class="social-btn" onclick="alert('Google login coming soon')">
-                <i class="fab fa-google"></i>
-                Google
-            </button>
-            <button type="button" class="social-btn" onclick="alert('GitHub login coming soon')">
-                <i class="fab fa-github"></i>
-                GitHub
-            </button>
-        </div>
-
-        <div class="signup-link">
-            Don't have an account? <a href="/signup/">Create one</a>
-        </div>
-
-        <div class="security-badge">
-            <i class="fas fa-lock"></i>
-            Your login is secure and encrypted
         </div>
     </div>
 
     <script>
-        const form = document.getElementById('signinForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const loading = document.getElementById('loading');
-        const rememberCheckbox = document.getElementById('remember');
-
-        // Load saved email if "Remember me" was checked
-        window.addEventListener('load', () => {
-            const savedEmail = localStorage.getItem('savedEmail');
-            if (savedEmail) {
-                document.getElementById('email').value = savedEmail;
-                rememberCheckbox.checked = true;
+        // Toggle password visibility
+        function togglePassword() {
+            const password = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (password.type === 'password') {
+                password.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                password.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             }
-        });
-
-        form.addEventListener('submit', async (e) => {
+        }
+        
+        // Show message
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `alert alert-${type}`;
+            message.style.display = 'block';
+        }
+        
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const remember = rememberCheckbox.checked;
-
-            errorMessage.classList.remove('show');
-            successMessage.classList.remove('show');
-
-            // Save email if remember me is checked
-            if (remember) {
-                localStorage.setItem('savedEmail', email);
-            } else {
-                localStorage.removeItem('savedEmail');
-            }
-
-            loading.style.display = 'block';
-
+            const submitBtn = this.querySelector('button[type="submit"]');
+            
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+            
             try {
-                const response = await fetch('/auth/login', {
+                const response = await fetch('/auth/login/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        email,
-                        password,
-                    }),
+                    body: JSON.stringify({ email, password })
                 });
-
-                loading.style.display = 'none';
-
-                if (!response.ok) {
-                    const data = await response.json();
-                    throw new Error(data.message || 'Invalid email or password');
-                }
-
+                
                 const data = await response.json();
-
-                // Store token if provided
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
+                
+                if (response.ok && data.success) {
+                    showMessage('Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = data.redirect || '/';
+                    }, 1000);
+                } else {
+                    showMessage(data.message || 'Invalid credentials. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
                 }
-
-                successMessage.textContent = 'Sign in successful! Redirecting...';
-                successMessage.classList.add('show');
-
-                // Redirect after 1 second
-                setTimeout(() => {
-                    window.location.href = '/track/';
-                }, 1000);
-
             } catch (error) {
-                loading.style.display = 'none';
-                errorMessage.textContent = error.message;
-                errorMessage.classList.add('show');
-                window.scrollTo(0, 0);
+                showMessage('Network error. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
             }
         });
     </script>

@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Development Setup
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=dev-secret-key-not-for-production
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+      - DB_ENGINE=django.db.backends.sqlite3
+    depends_on: []
+    command: python manage.py runserver 0.0.0.0:8000
+
+  # Production Setup with PostgreSQL
+  web-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8000:8000"
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost}
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=ttt_database
+      - DB_USER=ttt_user
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=ttt_database
+      - POSTGRES_USER=ttt_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-changeme}
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  # Nginx Reverse Proxy (optional, for production)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:ro
+    depends_on:
+      - web-prod
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

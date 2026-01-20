@@ -24,16 +24,20 @@ def track_page(request):
 
 
 def shipment_detail_json(request, tracking_number):
-    """Returns full shipment details as JSON"""
+    """Returns full shipment details as JSON with optimized queries"""
     try:
-        shipment = Shipment.objects.get(tracking_number=tracking_number)
-        return JsonResponse(shipment.to_dict())
+        # Use prefetch_related to avoid N+1 queries on events
+        shipment = Shipment.objects.prefetch_related('events').get(tracking_number=tracking_number)
+        response = JsonResponse(shipment.to_dict())
+        # Add cache headers - cache for 5 minutes (300 seconds)
+        response['Cache-Control'] = 'public, max-age=300'
+        return response
     except Shipment.DoesNotExist:
         return JsonResponse({"error": "Tracking number not found"}, status=404)
 
 
 def shipment_location_json(request, tracking_number):
-    """Returns only current location and status as JSON"""
+    """Returns only current location and status as JSON (lighter weight)"""
     shipment = get_object_or_404(Shipment, tracking_number=tracking_number)
     data = {
         "tracking_number": shipment.tracking_number,
@@ -42,23 +46,30 @@ def shipment_location_json(request, tracking_number):
         "status": shipment.status,
         "progress": shipment.progress_percentage(),
     }
-    return JsonResponse(data)
+    response = JsonResponse(data)
+    # Cache location data for 2 minutes (shorter than full details)
+    response['Cache-Control'] = 'public, max-age=120'
+    return response
 
 
 def shipments_list(request):
-    """Returns paginated list of shipments"""
+    """Returns paginated list of shipments (optimized)"""
     page = request.GET.get('page', 1)
     limit = request.GET.get('limit', 20)
     
     try:
         page = int(page)
         limit = int(limit)
+        limit = min(limit, 100)  # Cap at 100 to prevent abuse
     except ValueError:
         page = 1
         limit = 20
     
     offset = (page - 1) * limit
-    shipments = Shipment.objects.all()[offset:offset + limit]
+    # Use only() to select specific fields - reduces DB load
+    shipments = Shipment.objects.only(
+        'tracking_number', 'status', 'origin', 'destination', 'created_at'
+    )[offset:offset + limit]
     total = Shipment.objects.count()
     
     data = {

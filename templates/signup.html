@@ -3,908 +3,699 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTCP WorldWide Global Tracking</title>
+    <meta name="description" content="Create your TTCP Worldwide account to start tracking shipments and accessing our logistics services.">
+    <title>Create Account | TTCP Worldwide</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Additional styles specific to auth pages */
+        .auth-features {
+            display: none;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        
+        @media (min-width: 1024px) {
+            .auth-page {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                padding: 0;
+            }
+            
+            .auth-features {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 4rem;
+                background: var(--gradient-hero);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .auth-features::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -30%;
+                width: 600px;
+                height: 600px;
+                background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+                pointer-events: none;
+            }
+            
+            .auth-features-content {
+                position: relative;
+                z-index: 2;
+            }
+            
+            .auth-features h2 {
+                color: var(--white);
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .auth-features p {
+                color: var(--gray-400);
+                font-size: 1.1rem;
+                margin-bottom: 3rem;
+            }
+            
+            .feature-list {
+                list-style: none;
+            }
+            
+            .feature-list li {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                color: var(--gray-300);
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .feature-list li:last-child {
+                border-bottom: none;
+            }
+            
+            .feature-list i {
+                width: 40px;
+                height: 40px;
+                background: rgba(59, 130, 246, 0.2);
+                border-radius: var(--radius-md);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--secondary-light);
+            }
+            
+            .auth-form-section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                background: var(--white);
+                overflow-y: auto;
+                max-height: 100vh;
+            }
+            
+            .auth-container {
+                box-shadow: none;
+                max-width: 400px;
+            }
         }
-
-        .container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
-            width: 100%;
-            padding: 40px;
-        }
-
-        .form-header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .form-header h1 {
-            color: #333;
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .form-header p {
-            color: #666;
-            font-size: 0.95em;
-            margin-bottom: 5px;
-        }
-
-        .step-indicator {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding: 10px 0;
-        }
-
-        .step {
-            text-align: center;
-            flex: 1;
+        
+        .password-toggle {
             position: relative;
         }
-
-        .step.active .step-number {
-            background: #667eea;
-            color: white;
+        
+        .password-toggle input {
+            padding-right: 50px;
         }
-
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: #e0e0e0;
-            border-radius: 50%;
+        
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: var(--transition-normal);
+        }
+        
+        .toggle-password:hover {
+            color: var(--gray-600);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-btn {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 8px;
-            font-weight: bold;
-            color: #999;
-            transition: all 0.3s;
-        }
-
-        .step-label {
-            font-size: 0.85em;
-            color: #666;
-            display: none;
-        }
-
-        .step.active .step-label {
-            color: #333;
+            gap: 0.5rem;
+            padding: 0.875rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            color: var(--gray-700);
             font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-normal);
         }
-
-        .form-section {
-            display: none;
+        
+        .social-btn:hover {
+            border-color: var(--gray-300);
+            background: var(--gray-50);
         }
-
-        .form-section.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.95em;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="tel"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.95em;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-row {
+        
+        .name-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 1rem;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-            }
-
-            .form-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .form-header p {
-                font-size: 0.95rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .form-group {
-                margin-bottom: 1rem;
-            }
-
-            .form-group input,
-            .form-group select {
-                padding: 0.8rem;
-                font-size: 1rem;
-                min-height: 44px;
-            }
-
-            .form-group label {
-                font-size: 0.95rem;
-                margin-bottom: 0.4rem;
-            }
-
-            button {
-                min-height: 44px;
-                font-size: 1rem;
-                padding: 0.8rem 1.5rem;
-            }
-
-            .step-progress {
-                margin-bottom: 1.5rem;
-            }
-
-            .step-indicator {
-                gap: 0.8rem;
-            }
-
-            .step-num {
-                width: 32px;
-                height: 32px;
-                font-size: 0.85rem;
-            }
-
-            .step-label {
-                font-size: 0.8rem;
-                display: none;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem 1rem;
-                margin: 0.5rem;
-                border-radius: 12px;
-            }
-
-            .form-header h1 {
-                font-size: 1.5rem;
-            }
-
-            .form-header p {
-                font-size: 0.9rem;
-            }
-
-            .form-row {
-                gap: 0.8rem;
-            }
-
-            .form-group {
-                margin-bottom: 0.8rem;
-            }
-
-            .form-group input,
-            .form-group select {
-                padding: 0.7rem;
-                font-size: 0.95rem;
-                min-height: 40px;
-            }
-
-            .form-group label {
-                font-size: 0.9rem;
-                margin-bottom: 0.3rem;
-            }
-
-            button {
-                width: 100%;
-                min-height: 44px;
-                font-size: 0.95rem;
-                padding: 0.8rem 1rem;
-            }
-
-            .terms-text {
-                font-size: 0.8rem;
-                line-height: 1.4;
-            }
-
-            .password-requirements {
-                padding: 0.8rem;
-                font-size: 0.8rem;
-                margin-top: 0.5rem;
-            }
-
-            .requirement {
-                margin: 0.4rem 0;
-                font-size: 0.8rem;
-            }
-
-            .requirement-check {
-                width: 16px;
-                height: 16px;
-                margin-right: 0.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1.2rem 0.8rem;
-                margin: 0.25rem;
-            }
-
-            .form-header {
-                margin-bottom: 1rem;
-            }
-
-            .form-header h1 {
-                font-size: 1.3rem;
-                margin: 0.5rem 0;
-            }
-
-            .form-header p {
-                font-size: 0.85rem;
-                margin: 0.3rem 0;
-            }
-
-            .step-progress {
-                margin-bottom: 1rem;
-            }
-
-            .step-indicator {
-                gap: 0.5rem;
-            }
-
-            .step-num {
-                width: 28px;
-                height: 28px;
-                font-size: 0.75rem;
-            }
-
-            .form-group {
-                margin-bottom: 0.6rem;
-            }
-
-            .form-group input,
-            .form-group select {
-                padding: 0.6rem;
-                font-size: 0.9rem;
-                min-height: 38px;
-            }
-
-            .form-group label {
-                font-size: 0.85rem;
-                margin-bottom: 0.25rem;
-            }
-
-            button {
-                width: 100%;
-                min-height: 40px;
-                font-size: 0.9rem;
-                padding: 0.7rem 0.8rem;
-            }
-
-            .password-requirements {
-                padding: 0.6rem;
-                font-size: 0.75rem;
-                margin-top: 0.4rem;
-            }
-
-            .requirement {
-                margin: 0.3rem 0;
-                font-size: 0.75rem;
-            }
-        }
-
-        .password-requirements {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            color: #666;
-            margin-top: 8px;
-            border-left: 4px solid #667eea;
-        }
-
-        .requirement {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-            font-size: 0.9em;
-        }
-
-        .requirement-check {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 8px;
-            font-size: 0.8em;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .requirement.valid .requirement-check {
-            background: #27ae60;
-        }
-
-        .requirement.invalid .requirement-check {
-            background: #e74c3c;
-        }
-
-        .requirement.valid {
-            color: #27ae60;
-        }
-
-        .requirement.invalid {
-            color: #e74c3c;
-        }
-
-        .checkbox-group {
+        
+        .terms-checkbox {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 20px;
-            gap: 10px;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gray-600);
         }
-
-        .checkbox-group input[type="checkbox"] {
+        
+        .terms-checkbox input {
             width: 20px;
             height: 20px;
-            margin-top: 3px;
-            cursor: pointer;
+            accent-color: var(--secondary);
+            margin-top: 2px;
             flex-shrink: 0;
         }
-
-        .checkbox-group label {
-            margin: 0;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #666;
+        
+        .terms-checkbox a {
+            color: var(--secondary);
+            font-weight: 500;
         }
-
-        .checkbox-group a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .checkbox-group a:hover {
+        
+        .terms-checkbox a:hover {
             text-decoration: underline;
         }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-prev {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-prev:hover {
-            background: #d0d0d0;
-        }
-
-        .btn-next,
-        .btn-signup {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-next:hover,
-        .btn-signup:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 25px;
-            color: #666;
-        }
-
-        .form-footer a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .error {
-            background: #fadbd8;
-            border: 1px solid #f5b7b1;
-            color: #c0392b;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-            border-left: 4px solid #c0392b;
-        }
-
-        .error.show {
-            display: block;
-        }
-
-        .success {
-            background: #d4efdf;
-            border: 1px solid #abebc6;
-            color: #155724;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-            border-left: 4px solid #27ae60;
-        }
-
-        .success.show {
-            display: block;
-        }
-
-        .loading {
-            text-align: center;
-            color: #667eea;
-            display: none;
-            padding: 10px;
-        }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-section svg {
-            max-width: 100px;
-            height: auto;
-            display: block;
-            flex-shrink: 0;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #e0e0e0;
-            border-radius: 3px;
-            margin-bottom: 20px;
+        
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: 2px;
             overflow: hidden;
         }
-
-        .progress-fill {
+        
+        .password-strength-bar {
             height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            width: 0%;
-            transition: width 0.3s ease;
+            width: 0;
+            transition: var(--transition-normal);
+            border-radius: 2px;
+        }
+        
+        .strength-weak { width: 33%; background: var(--error); }
+        .strength-medium { width: 66%; background: var(--warning); }
+        .strength-strong { width: 100%; background: var(--success); }
+        
+        .password-hint {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.5rem;
+        }
+        
+        .password-hint i {
+            color: var(--success);
+            margin-right: 0.25rem;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+        
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+        }
+        
+        .section-divider i {
+            color: var(--secondary);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-section">
-            <svg viewBox="0 0 200 200" width="100" height="100" xmlns="http://www.w3.org/2000/svg" style="max-width: 100px; height: auto;">
-                <!-- Globe background -->
-                <circle cx="100" cy="100" r="95" fill="#004B9C" opacity="0.1" stroke="#0066FF" stroke-width="2"/>
-                <!-- Globe continents representation -->
-                <circle cx="100" cy="100" r="70" fill="none" stroke="#0066FF" stroke-width="1.5" opacity="0.3"/>
-                <!-- Package/Box -->
-                <path d="M 65 70 L 100 50 L 135 70 L 135 120 L 65 120 Z" fill="#FF6B35" stroke="#004B9C" stroke-width="2" stroke-linejoin="round"/>
-                <!-- Box top -->
-                <line x1="100" y1="50" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5"/>
-                <line x1="65" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                <line x1="135" y1="70" x2="100" y2="90" stroke="#004B9C" stroke-width="1.5" opacity="0.5"/>
-                <!-- Tracking arrow -->
-                <path d="M 110 140 Q 130 130 140 115" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,2"/>
-                <polygon points="140,115 145,105 150,120" fill="#0066FF"/>
-            </svg>
-        </div>
-
-        <div class="form-header">
-            <h1>Create Account</h1>
-            <p>Join TTCP Worldwide Tracking System</p>
-        </div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-
-        <div class="step-indicator">
-            <div class="step active" id="step1-indicator">
-                <div class="step-number">1</div>
-                <div class="step-label">Basic</div>
-            </div>
-            <div class="step" id="step2-indicator">
-                <div class="step-number">2</div>
-                <div class="step-label">Personal</div>
-            </div>
-            <div class="step" id="step3-indicator">
-                <div class="step-number">3</div>
-                <div class="step-label">Confirm</div>
+    <div class="auth-page">
+        <!-- Features Side (Desktop Only) -->
+        <div class="auth-features">
+            <div class="auth-features-content">
+                <h2>Join TTCP Worldwide</h2>
+                <p>Create your account to unlock powerful logistics and tracking features.</p>
+                
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-box"></i>
+                        <span>Track unlimited shipments in real-time</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-globe"></i>
+                        <span>Ship to 150+ countries worldwide</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-percent"></i>
+                        <span>Exclusive discounts on shipping rates</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Priority customer support 24/7</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure and insured deliveries</span>
+                    </li>
+                </ul>
             </div>
         </div>
-
-        <div id="errorMessage" class="error"></div>
-        <div id="successMessage" class="success"></div>
-
-        <form id="signupForm">
-            <!-- Step 1: Basic Info -->
-            <div class="form-section active" id="step1">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName">First Name *</label>
-                        <input type="text" id="firstName" name="firstName" required placeholder="John">
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name *</label>
-                        <input type="text" id="lastName" name="lastName" required placeholder="Doe">
-                    </div>
+        
+        <!-- Form Side -->
+        <div class="auth-form-section">
+            <div class="auth-container">
+                <!-- Logo -->
+                <div class="auth-logo">
+                    <a href="/">
+                        <img src="/static/images/logo.png" alt="TTCP Worldwide">
+                    </a>
                 </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required placeholder="john.doe@example.com">
+                
+                <!-- Header -->
+                <div class="auth-header">
+                    <h1>Create Account</h1>
+                    <p>Get started with your free account today</p>
                 </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number *</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
-                </div>
-            </div>
-
-            <!-- Step 2: Personal & Address -->
-            <div class="form-section" id="step2">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="ssn">Social Security Number *</label>
-                        <input type="text" id="ssn" name="ssn" required placeholder="XXX-XX-XXXX" maxlength="11">
-                    </div>
-                    <div class="form-group">
-                        <label for="dob">Date of Birth *</label>
-                        <input type="date" id="dob" name="dob" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Street Address *</label>
-                    <input type="text" id="address" name="address" required placeholder="123 Main Street">
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="city">City *</label>
-                        <input type="text" id="city" name="city" required placeholder="New York">
-                    </div>
-                    <div class="form-group">
-                        <label for="state">State/Province *</label>
-                        <input type="text" id="state" name="state" required placeholder="NY">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="zipcode">ZIP/Postal Code *</label>
-                        <input type="text" id="zipcode" name="zipcode" required placeholder="10001">
-                    </div>
-                    <div class="form-group">
-                        <label for="country">Country *</label>
-                        <select id="country" name="country" required>
-                            <option value="">Select Country</option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="AU">Australia</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 3: Password & Agreement -->
-            <div class="form-section" id="step3">
-                <div class="form-group">
-                    <label for="password">Password *</label>
-                    <input type="password" id="password" name="password" required placeholder="Enter a strong password">
-                    <div class="password-requirements">
-                        <div class="requirement invalid" id="req-length">
-                            <span class="requirement-check">✓</span>
-                            At least 8 characters
+                
+                <!-- Error/Success Messages -->
+                <div id="message" class="alert" style="display: none;"></div>
+                
+                <!-- Register Form -->
+                <form id="registerForm">
+                    <div class="name-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" 
+                                   id="firstName" 
+                                   name="firstName" 
+                                   class="form-control" 
+                                   placeholder="John"
+                                   required>
                         </div>
-                        <div class="requirement invalid" id="req-uppercase">
-                            <span class="requirement-check">✓</span>
-                            At least one uppercase letter
-                        </div>
-                        <div class="requirement invalid" id="req-number">
-                            <span class="requirement-check">✓</span>
-                            At least one number
-                        </div>
-                        <div class="requirement invalid" id="req-special">
-                            <span class="requirement-check">✓</span>
-                            At least one special character (!@#$%)
+                        
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" 
+                                   id="lastName" 
+                                   name="lastName" 
+                                   class="form-control" 
+                                   placeholder="Doe"
+                                   required>
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               class="form-control" 
+                               placeholder="john@example.com"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" 
+                               id="phone" 
+                               name="phone" 
+                               class="form-control" 
+                               placeholder="+1 (555) 123-4567"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" 
+                               id="dob" 
+                               name="dob" 
+                               class="form-control" 
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ssn">Social Security Number (SSN)</label>
+                        <input type="text" 
+                               id="ssn" 
+                               name="ssn" 
+                               class="form-control" 
+                               placeholder="XXX-XX-XXXX"
+                               pattern="\d{3}-?\d{2}-?\d{4}"
+                               maxlength="11"
+                               required>
+                        <p class="password-hint"><i class="fas fa-lock"></i> Your SSN is encrypted and securely stored</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Street Address</label>
+                        <input type="text" 
+                               id="address" 
+                               name="address" 
+                               class="form-control" 
+                               placeholder="123 Main Street"
+                               required>
+                    </div>
+                    
+                    <div class="name-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" 
+                                   id="city" 
+                                   name="city" 
+                                   class="form-control" 
+                                   placeholder="New York"
+                                   required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" 
+                                   id="state" 
+                                   name="state" 
+                                   class="form-control" 
+                                   placeholder="NY"
+                                   maxlength="2"
+                                   required>
+                        </div>
+                    </div>
+                    
+                    <div class="name-row">
+                        <div class="form-group">
+                            <label for="zipcode">ZIP Code</label>
+                            <input type="text" 
+                                   id="zipcode" 
+                                   name="zipcode" 
+                                   class="form-control" 
+                                   placeholder="10001"
+                                   pattern="\d{5}(-\d{4})?"
+                                   required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country" name="country" class="form-control" required>
+                                <option value="">Select Country</option>
+                                <option value="US" selected>United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="JP">Japan</option>
+                                <option value="CN">China</option>
+                                <option value="IN">India</option>
+                                <option value="BR">Brazil</option>
+                                <option value="MX">Mexico</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-toggle">
+                            <input type="password" 
+                                   id="password" 
+                                   name="password" 
+                                   class="form-control" 
+                                   placeholder="Create a strong password"
+                                   required
+                                   minlength="8"
+                                   oninput="checkPasswordStrength()">
+                            <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                                <i class="fas fa-eye" id="toggleIcon1"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <p class="password-hint">Use 8+ characters with letters, numbers, and symbols</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="password-toggle">
+                            <input type="password" 
+                                   id="confirmPassword" 
+                                   name="confirmPassword" 
+                                   class="form-control" 
+                                   placeholder="Confirm your password"
+                                   required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+                                <i class="fas fa-eye" id="toggleIcon2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <label class="terms-checkbox">
+                        <input type="checkbox" name="terms" id="terms" required>
+                        <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                    </label>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i>
+                        Create Account
+                    </button>
+                </form>
+                
+                <div class="divider">or sign up with</div>
+                
+                <!-- Social Login -->
+                <div class="social-login">
+                    <button class="social-btn">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button class="social-btn">
+                        <i class="fab fa-microsoft"></i>
+                        Microsoft
+                    </button>
                 </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password *</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="marketing" name="marketing">
-                    <label for="marketing">I want to receive marketing emails and updates</label>
+                
+                <!-- Footer -->
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="/signin">Sign In</a></p>
                 </div>
             </div>
-
-            <div class="loading" id="loading">Creating your account...</div>
-
-            <div class="button-group">
-                <button type="button" class="btn btn-prev" id="prevBtn" style="display: none;">← Previous</button>
-                <button type="button" class="btn btn-next" id="nextBtn">Next →</button>
-            </div>
-
-            <div class="form-footer">
-                Already have an account? <a href="/signin/">Sign In</a>
-            </div>
-        </form>
+        </div>
     </div>
 
     <script>
-        const form = document.getElementById('signupForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const loading = document.getElementById('loading');
-        let currentStep = 1;
-        const totalSteps = 3;
-
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const progressFill = document.getElementById('progressFill');
-
-        // Password validation
-        const passwordInput = document.getElementById('password');
-        const requirements = {
-            length: document.getElementById('req-length'),
-            uppercase: document.getElementById('req-uppercase'),
-            number: document.getElementById('req-number'),
-            special: document.getElementById('req-special')
-        };
-
-        passwordInput.addEventListener('input', () => {
-            const password = passwordInput.value;
-
-            updateRequirement(requirements.length, password.length >= 8);
-            updateRequirement(requirements.uppercase, /[A-Z]/.test(password));
-            updateRequirement(requirements.number, /[0-9]/.test(password));
-            updateRequirement(requirements.special, /[!@#$%^&*]/.test(password));
+        // SSN auto-formatting
+        document.getElementById('ssn').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 9) value = value.slice(0, 9);
+            
+            if (value.length > 5) {
+                value = value.slice(0, 3) + '-' + value.slice(3, 5) + '-' + value.slice(5);
+            } else if (value.length > 3) {
+                value = value.slice(0, 3) + '-' + value.slice(3);
+            }
+            
+            e.target.value = value;
         });
-
-        function updateRequirement(element, isValid) {
-            if (isValid) {
-                element.classList.remove('invalid');
-                element.classList.add('valid');
+        
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const password = document.getElementById(inputId);
+            const iconNum = inputId === 'password' ? '1' : '2';
+            const toggleIcon = document.getElementById(`toggleIcon${iconNum}`);
+            
+            if (password.type === 'password') {
+                password.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
             } else {
-                element.classList.remove('valid');
-                element.classList.add('invalid');
+                password.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             }
         }
-
-        function showStep(step) {
-            // Hide all sections
-            document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-
-            // Show current section
-            document.getElementById(`step${step}`).classList.add('active');
-            document.getElementById(`step${step}-indicator`).classList.add('active');
-
-            // Update buttons
-            if (step === 1) {
-                prevBtn.style.display = 'none';
-                nextBtn.textContent = 'Next →';
-            } else if (step === totalSteps) {
-                prevBtn.style.display = 'block';
-                nextBtn.textContent = 'Create Account';
-            } else {
-                prevBtn.style.display = 'block';
-                nextBtn.textContent = 'Next →';
-            }
-
-            // Update progress bar
-            const progress = (step / totalSteps) * 100;
-            progressFill.style.width = progress + '%';
-        }
-
-        function validateStep(step) {
-            const required = document.querySelectorAll(`#step${step} input[required], #step${step} select[required]`);
-            let isValid = true;
-
-            for (let input of required) {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    break;
-                }
-            }
-
-            if (step === 3) {
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const terms = document.getElementById('terms').checked;
-
-                if (password !== confirmPassword) {
-                    errorMessage.textContent = 'Passwords do not match!';
-                    errorMessage.classList.add('show');
-                    return false;
-                }
-
-                if (!terms) {
-                    errorMessage.textContent = 'You must agree to the Terms of Service';
-                    errorMessage.classList.add('show');
-                    return false;
-                }
-
-                // Check password requirements
-                if (!(/[A-Z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*]/.test(password) && password.length >= 8)) {
-                    errorMessage.textContent = 'Password does not meet all requirements';
-                    errorMessage.classList.add('show');
-                    return false;
-                }
-            }
-
-            errorMessage.classList.remove('show');
-            return isValid;
-        }
-
-        nextBtn.addEventListener('click', async () => {
-            if (!validateStep(currentStep)) {
-                if (!errorMessage.classList.contains('show')) {
-                    errorMessage.textContent = 'Please fill in all required fields';
-                    errorMessage.classList.add('show');
-                }
+        
+        // Password strength checker
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const strengthBar = document.getElementById('strengthBar');
+            
+            // Remove all classes
+            strengthBar.className = 'password-strength-bar';
+            
+            if (password.length === 0) {
                 return;
             }
-
-            if (currentStep < totalSteps) {
-                currentStep++;
-                showStep(currentStep);
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            
+            if (strength <= 1) {
+                strengthBar.classList.add('strength-weak');
+            } else if (strength <= 2) {
+                strengthBar.classList.add('strength-medium');
             } else {
-                // Submit form
-                await submitForm();
+                strengthBar.classList.add('strength-strong');
             }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-                errorMessage.classList.remove('show');
+        }
+        
+        // Show message
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `alert alert-${type}`;
+            message.style.display = 'block';
+            message.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Form submission
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const dob = document.getElementById('dob').value;
+            const ssn = document.getElementById('ssn').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const zipcode = document.getElementById('zipcode').value;
+            const country = document.getElementById('country').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            const submitBtn = this.querySelector('button[type="submit"]');
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', 'error');
+                return;
             }
-        });
-
-        async function submitForm() {
-            errorMessage.classList.remove('show');
-            successMessage.classList.remove('show');
-            loading.style.display = 'block';
-
+            
+            // Validate password length
+            if (password.length < 8) {
+                showMessage('Password must be at least 8 characters long.', 'error');
+                return;
+            }
+            
+            // Validate SSN format
+            const ssnPattern = /^\d{3}-?\d{2}-?\d{4}$/;
+            if (!ssnPattern.test(ssn)) {
+                showMessage('Please enter a valid SSN (XXX-XX-XXXX).', 'error');
+                return;
+            }
+            
+            // Validate age (must be 18+)
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            if (age < 18) {
+                showMessage('You must be at least 18 years old to create an account.', 'error');
+                return;
+            }
+            
+            // Validate terms
+            if (!terms) {
+                showMessage('Please agree to the Terms of Service and Privacy Policy.', 'error');
+                return;
+            }
+            
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            
             try {
-                const formData = {
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    ssn: document.getElementById('ssn').value,
-                    dob: document.getElementById('dob').value,
-                    address: document.getElementById('address').value,
-                    city: document.getElementById('city').value,
-                    state: document.getElementById('state').value,
-                    zipcode: document.getElementById('zipcode').value,
-                    country: document.getElementById('country').value,
-                    password: document.getElementById('password').value,
-                    marketing: document.getElementById('marketing').checked
-                };
-
-                const response = await fetch('/auth/register', {
+                const response = await fetch('/auth/register/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify({
+                        first_name: firstName,
+                        last_name: lastName,
+                        email: email,
+                        phone: phone,
+                        dob: dob,
+                        ssn: ssn,
+                        address: address,
+                        city: city,
+                        state: state,
+                        zipcode: zipcode,
+                        country: country,
+                        password: password
+                    })
                 });
-
-                loading.style.display = 'none';
-
-                if (!response.ok) {
-                    const data = await response.json();
-                    throw new Error(data.message || 'Registration failed');
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    showMessage('Account created successfully! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = data.redirect || '/signin';
+                    }, 1500);
+                } else {
+                    showMessage(data.message || 'Registration failed. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
                 }
-
-                successMessage.textContent = 'Account created successfully! Redirecting to sign in...';
-                successMessage.classList.add('show');
-
-                setTimeout(() => {
-                    window.location.href = '/signin/';
-                }, 2000);
-
             } catch (error) {
-                loading.style.display = 'none';
-                errorMessage.textContent = error.message;
-                errorMessage.classList.add('show');
-                window.scrollTo(0, 0);
+                showMessage('Network error. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
             }
-        }
-
-        // Initialize
-        showStep(1);
+        });
     </script>
 </body>
 </html>

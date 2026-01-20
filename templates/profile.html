@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your TTCP Worldwide account profile and settings.">
+    <title>My Profile | TTCP Worldwide</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <style>
+        .profile-page {
+            min-height: 100vh;
+            background: var(--gray-50);
+        }
+        
+        .profile-header {
+            background: var(--gradient-hero);
+            padding: 6rem 0 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .profile-header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: 700;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .profile-header-info h1 {
+            color: var(--white);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-header-info p {
+            color: var(--gray-400);
+            font-size: 1rem;
+        }
+        
+        .profile-header-info .member-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            color: var(--gray-300);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+        
+        .profile-content {
+            margin-top: -4rem;
+            padding-bottom: 4rem;
+        }
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 1024px) {
+            .profile-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        .profile-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        
+        .profile-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .profile-card-header h2 {
+            font-size: 1.25rem;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .profile-card-header h2 i {
+            color: var(--secondary);
+        }
+        
+        .profile-card-body {
+            padding: 1.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 640px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .info-item.full-width {
+            grid-column: span 2;
+        }
+        
+        @media (max-width: 640px) {
+            .info-item.full-width {
+                grid-column: span 1;
+            }
+        }
+        
+        .info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-500);
+            font-weight: 600;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            color: var(--gray-900);
+            font-weight: 500;
+        }
+        
+        .info-value.masked {
+            font-family: monospace;
+            letter-spacing: 0.1em;
+        }
+        
+        .btn-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-edit:hover {
+            background: var(--gray-200);
+            color: var(--gray-900);
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .action-btn:hover {
+            background: var(--white);
+            border-color: var(--secondary);
+            color: var(--secondary);
+            transform: translateX(4px);
+        }
+        
+        .action-btn i {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .action-btn:hover i {
+            background: var(--secondary);
+            color: var(--white);
+        }
+        
+        .action-btn span {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .action-btn .arrow {
+            color: var(--gray-400);
+        }
+        
+        .action-btn.danger {
+            color: var(--error);
+        }
+        
+        .action-btn.danger:hover {
+            border-color: var(--error);
+            background: #FEF2F2;
+        }
+        
+        .action-btn.danger i {
+            color: var(--error);
+        }
+        
+        .action-btn.danger:hover i {
+            background: var(--error);
+            color: var(--white);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+        }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gray-200);
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .error-state i {
+            font-size: 4rem;
+            color: var(--error);
+            margin-bottom: 1rem;
+        }
+        
+        .error-state h2 {
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+        
+        .error-state p {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.25rem;
+            color: var(--gray-900);
+        }
+        
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-600);
+            transition: var(--transition);
+        }
+        
+        .modal-close:hover {
+            background: var(--gray-200);
+            color: var(--gray-900);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .btn-cancel {
+            padding: 0.75rem 1.5rem;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-cancel:hover {
+            background: var(--gray-200);
+        }
+        
+        .btn-save {
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-save:hover {
+            background: var(--secondary-dark);
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .message.success {
+            display: block;
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+        
+        .message.error {
+            display: block;
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+        }
+    </style>
+</head>
+<body class="profile-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <img src="/static/images/logo.png" alt="TTCP Worldwide" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="logo-fallback" style="display: none;">
+                        <i class="fas fa-globe"></i>
+                        <span>TTCP</span>
+                    </div>
+                </a>
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/track" class="nav-link">Track</a>
+                    <a href="/profile" class="nav-link active">Profile</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="/auth/logout/" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="container">
+            <div class="profile-header-content">
+                <div class="profile-avatar" id="profileAvatar">
+                    <span id="avatarInitials">--</span>
+                </div>
+                <div class="profile-header-info">
+                    <h1 id="profileName">Loading...</h1>
+                    <p id="profileEmail">Loading...</p>
+                    <div class="member-badge">
+                        <i class="fas fa-star"></i>
+                        <span id="memberSince">Member since --</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Content -->
+    <section class="profile-content">
+        <div class="container">
+            <div class="profile-grid">
+                <!-- Main Info -->
+                <div class="profile-main">
+                    <!-- Personal Information Card -->
+                    <div class="profile-card" style="margin-bottom: 1.5rem;">
+                        <div class="profile-card-header">
+                            <h2><i class="fas fa-user"></i> Personal Information</h2>
+                            <button class="btn-edit" onclick="openEditModal('personal')">
+                                <i class="fas fa-pen"></i> Edit
+                            </button>
+                        </div>
+                        <div class="profile-card-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">First Name</span>
+                                    <span class="info-value" id="firstName">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Last Name</span>
+                                    <span class="info-value" id="lastName">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Email</span>
+                                    <span class="info-value" id="email">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Phone</span>
+                                    <span class="info-value" id="phone">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Date of Birth</span>
+                                    <span class="info-value" id="dob">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">SSN</span>
+                                    <span class="info-value masked" id="ssn">XXX-XX-****</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address Card -->
+                    <div class="profile-card">
+                        <div class="profile-card-header">
+                            <h2><i class="fas fa-map-marker-alt"></i> Address</h2>
+                            <button class="btn-edit" onclick="openEditModal('address')">
+                                <i class="fas fa-pen"></i> Edit
+                            </button>
+                        </div>
+                        <div class="profile-card-body">
+                            <div class="info-grid">
+                                <div class="info-item full-width">
+                                    <span class="info-label">Street Address</span>
+                                    <span class="info-value" id="address">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">City</span>
+                                    <span class="info-value" id="city">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">State</span>
+                                    <span class="info-value" id="state">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">ZIP Code</span>
+                                    <span class="info-value" id="zipcode">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Country</span>
+                                    <span class="info-value" id="country">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="profile-sidebar">
+                    <!-- Quick Actions Card -->
+                    <div class="profile-card">
+                        <div class="profile-card-header">
+                            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                        </div>
+                        <div class="profile-card-body">
+                            <div class="quick-actions">
+                                <a href="/track" class="action-btn">
+                                    <i class="fas fa-search"></i>
+                                    <span>Track Shipment</span>
+                                    <i class="fas fa-chevron-right arrow"></i>
+                                </a>
+                                <a href="#" class="action-btn" onclick="openEditModal('password'); return false;">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Change Password</span>
+                                    <i class="fas fa-chevron-right arrow"></i>
+                                </a>
+                                <a href="#" class="action-btn" onclick="openEditModal('personal'); return false;">
+                                    <i class="fas fa-user-edit"></i>
+                                    <span>Edit Profile</span>
+                                    <i class="fas fa-chevron-right arrow"></i>
+                                </a>
+                                <a href="/auth/logout/" class="action-btn danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                    <i class="fas fa-chevron-right arrow"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Personal Info Modal -->
+    <div class="modal-overlay" id="personalModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Personal Information</h3>
+                <button class="modal-close" onclick="closeModal('personalModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="personalMessage" class="message"></div>
+                <form id="personalForm">
+                    <div class="form-group">
+                        <label for="editFirstName">First Name</label>
+                        <input type="text" id="editFirstName" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLastName">Last Name</label>
+                        <input type="text" id="editLastName" name="last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone</label>
+                        <input type="tel" id="editPhone" name="phone">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('personalModal')">Cancel</button>
+                <button class="btn-save" onclick="savePersonalInfo()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Address Modal -->
+    <div class="modal-overlay" id="addressModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Address</h3>
+                <button class="modal-close" onclick="closeModal('addressModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="addressMessage" class="message"></div>
+                <form id="addressForm">
+                    <div class="form-group">
+                        <label for="editAddress">Street Address</label>
+                        <input type="text" id="editAddress" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCity">City</label>
+                        <input type="text" id="editCity" name="city">
+                    </div>
+                    <div class="form-group">
+                        <label for="editState">State</label>
+                        <input type="text" id="editState" name="state">
+                    </div>
+                    <div class="form-group">
+                        <label for="editZipcode">ZIP Code</label>
+                        <input type="text" id="editZipcode" name="zipcode">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCountry">Country</label>
+                        <input type="text" id="editCountry" name="country">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('addressModal')">Cancel</button>
+                <button class="btn-save" onclick="saveAddress()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="modal-close" onclick="closeModal('passwordModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="passwordMessage" class="message"></div>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="current_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="new_password" required minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirm_password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('passwordModal')">Cancel</button>
+                <button class="btn-save" onclick="changePassword()">Change Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="background: var(--primary); padding: 2rem 0;">
+        <div class="container">
+            <div style="text-align: center; color: var(--gray-400);">
+                <p>&copy; 2026 TTCP Worldwide. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let profileData = null;
+
+        // Load profile data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+        });
+
+        async function loadProfile() {
+            try {
+                const response = await fetch('/auth/profile/');
+                
+                if (response.status === 401) {
+                    // Not authenticated, redirect to signin
+                    window.location.href = '/signin';
+                    return;
+                }
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load profile');
+                }
+                
+                profileData = await response.json();
+                displayProfile(profileData);
+                
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                // Show error or redirect
+                window.location.href = '/signin';
+            }
+        }
+
+        function displayProfile(data) {
+            // Avatar and header
+            const initials = getInitials(data.first_name, data.last_name);
+            document.getElementById('avatarInitials').textContent = initials;
+            document.getElementById('profileName').textContent = `${data.first_name || ''} ${data.last_name || ''}`.trim() || 'User';
+            document.getElementById('profileEmail').textContent = data.email || '';
+            
+            // Personal info
+            document.getElementById('firstName').textContent = data.first_name || '--';
+            document.getElementById('lastName').textContent = data.last_name || '--';
+            document.getElementById('email').textContent = data.email || '--';
+            document.getElementById('phone').textContent = data.phone || '--';
+            document.getElementById('dob').textContent = formatDate(data.date_of_birth) || '--';
+            document.getElementById('ssn').textContent = data.ssn_masked || 'XXX-XX-****';
+            
+            // Address
+            document.getElementById('address').textContent = data.address || '--';
+            document.getElementById('city').textContent = data.city || '--';
+            document.getElementById('state').textContent = data.state || '--';
+            document.getElementById('zipcode').textContent = data.zipcode || '--';
+            document.getElementById('country').textContent = getCountryName(data.country) || '--';
+            
+            // Member since (use a placeholder since we don't have this field yet)
+            document.getElementById('memberSince').textContent = 'Member since 2026';
+        }
+
+        function getInitials(firstName, lastName) {
+            const first = firstName ? firstName.charAt(0).toUpperCase() : '';
+            const last = lastName ? lastName.charAt(0).toUpperCase() : '';
+            return first + last || 'U';
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return null;
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function getCountryName(code) {
+            const countries = {
+                'US': 'United States',
+                'CA': 'Canada',
+                'UK': 'United Kingdom',
+                'GB': 'United Kingdom',
+                'AU': 'Australia',
+                'DE': 'Germany',
+                'FR': 'France',
+                'JP': 'Japan',
+                'CN': 'China',
+                'IN': 'India',
+                'MX': 'Mexico',
+                'BR': 'Brazil'
+            };
+            return countries[code] || code;
+        }
+
+        function openEditModal(type) {
+            const modalId = type + 'Modal';
+            const modal = document.getElementById(modalId);
+            
+            if (type === 'personal' && profileData) {
+                document.getElementById('editFirstName').value = profileData.first_name || '';
+                document.getElementById('editLastName').value = profileData.last_name || '';
+                document.getElementById('editPhone').value = profileData.phone || '';
+            } else if (type === 'address' && profileData) {
+                document.getElementById('editAddress').value = profileData.address || '';
+                document.getElementById('editCity').value = profileData.city || '';
+                document.getElementById('editState').value = profileData.state || '';
+                document.getElementById('editZipcode').value = profileData.zipcode || '';
+                document.getElementById('editCountry').value = profileData.country || '';
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            // Clear messages
+            const messageEl = document.querySelector(`#${modalId} .message`);
+            if (messageEl) {
+                messageEl.className = 'message';
+                messageEl.textContent = '';
+            }
+        }
+
+        async function savePersonalInfo() {
+            const data = {
+                first_name: document.getElementById('editFirstName').value,
+                last_name: document.getElementById('editLastName').value,
+                phone: document.getElementById('editPhone').value
+            };
+            
+            try {
+                const response = await fetch('/auth/profile/update/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showModalMessage('personalModal', 'Profile updated successfully!', 'success');
+                    setTimeout(() => {
+                        closeModal('personalModal');
+                        loadProfile();
+                    }, 1500);
+                } else {
+                    showModalMessage('personalModal', result.message || 'Failed to update', 'error');
+                }
+            } catch (error) {
+                showModalMessage('personalModal', 'An error occurred', 'error');
+            }
+        }
+
+        async function saveAddress() {
+            const data = {
+                address: document.getElementById('editAddress').value,
+                city: document.getElementById('editCity').value,
+                state: document.getElementById('editState').value,
+                zipcode: document.getElementById('editZipcode').value,
+                country: document.getElementById('editCountry').value
+            };
+            
+            try {
+                const response = await fetch('/auth/profile/update/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showModalMessage('addressModal', 'Address updated successfully!', 'success');
+                    setTimeout(() => {
+                        closeModal('addressModal');
+                        loadProfile();
+                    }, 1500);
+                } else {
+                    showModalMessage('addressModal', result.message || 'Failed to update', 'error');
+                }
+            } catch (error) {
+                showModalMessage('addressModal', 'An error occurred', 'error');
+            }
+        }
+
+        async function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                showModalMessage('passwordModal', 'Passwords do not match', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                showModalMessage('passwordModal', 'Password must be at least 8 characters', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/auth/change-password/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showModalMessage('passwordModal', 'Password changed successfully!', 'success');
+                    setTimeout(() => {
+                        closeModal('passwordModal');
+                        document.getElementById('passwordForm').reset();
+                    }, 1500);
+                } else {
+                    showModalMessage('passwordModal', result.message || 'Failed to change password', 'error');
+                }
+            } catch (error) {
+                showModalMessage('passwordModal', 'An error occurred', 'error');
+            }
+        }
+
+        function showModalMessage(modalId, message, type) {
+            const messageEl = document.querySelector(`#${modalId} .message`);
+            messageEl.textContent = message;
+            messageEl.className = `message ${type}`;
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

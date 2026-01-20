@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from tracking import views as tracking_views
+from accounts import views as accounts_views
 
 urlpatterns = [
     # HTML Pages
@@ -10,6 +11,8 @@ urlpatterns = [
     path('signin/', tracking_views.signin, name='signin'),
     path('signup/', tracking_views.signup, name='signup'),
     path('track/', tracking_views.track_page, name='track'),
+    path('profile/', accounts_views.profile_page, name='profile_page'),
+    path('forgot-password/', accounts_views.forgot_password_page, name='forgot_password_page'),
     
     # Admin
     path('admin/', admin.site.urls),
