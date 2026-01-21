@@ -40,9 +40,10 @@ env/
 .env.production
 .env.*.local
 
-# Database
-*.sqlite3
-db.sqlite3
+# Database - KEEP db.sqlite3 in repo to preserve shipment data
+# Uncomment lines below if you want to exclude database:
+# *.sqlite3
+# db.sqlite3
 
 # Static files (collected)
 staticfiles/

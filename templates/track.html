@@ -854,13 +854,9 @@
             document.getElementById('displayCreated').textContent = formatDate(data.created_at);
             document.getElementById('displayEstDelivery').textContent = formatDate(data.estimated_delivery);
 
-            // Update contact info
+            // Update contact info (only names, email/phone hidden for privacy)
             document.getElementById('senderName').textContent = data.sender_name || '--';
-            document.getElementById('senderEmail').textContent = data.sender_email || '--';
-            document.getElementById('senderPhone').textContent = data.sender_phone || '--';
             document.getElementById('receiverName').textContent = data.receiver_name || '--';
-            document.getElementById('receiverEmail').textContent = data.receiver_email || '--';
-            document.getElementById('receiverPhone').textContent = data.receiver_phone || '--';
 
             // Update progress
             document.getElementById('progressFill').style.width = `${getProgress(data.status)}%`;
