@@ -908,6 +908,33 @@ section {
     color: var(--success);
 }
 
+/* Profile page navigation logo fix */
+.nav .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.nav .logo img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav .logo-fallback {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.nav .logo-fallback i {
+    color: var(--secondary);
+}
+
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     25% { transform: translateY(-4px); }
