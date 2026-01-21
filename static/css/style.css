@@ -892,6 +892,37 @@ section {
     color: var(--secondary);
 }
 
+/* Contact icons animation */
+.footer-column a i {
+    margin-right: 0.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-column a:hover i.fa-envelope {
+    animation: bounce 0.5s ease;
+    color: var(--accent);
+}
+
+.footer-column a:hover i.fa-phone {
+    animation: shake 0.5s ease;
+    color: var(--success);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-4px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(-2px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(-10deg); }
+    40% { transform: rotate(10deg); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+}
+
 .footer-bottom {
     border-top: 1px solid var(--gray-800);
     padding-top: 2rem;
