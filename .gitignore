@@ -26,6 +26,12 @@ ENV/
 env/
 .venv/
 
+# Local Python Scripts (pip installs - recreate with pip install)
+Scripts/
+Lib/
+Include/
+pyvenv.cfg
+
 # IDE
 .vscode/
 .idea/
