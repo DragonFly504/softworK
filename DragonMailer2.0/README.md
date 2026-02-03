@@ -1,4 +1,4 @@
-# � Dragon Mailer v2.0
+# 🐉 Dragon Mailer v2.0
 
 A powerful Python application to send bulk emails and SMS messages. Includes a beautiful **Streamlit web UI** with themes, multi-user support, and scheduling.
 
@@ -9,7 +9,7 @@ A powerful Python application to send bulk emails and SMS messages. Includes a b
 - ☁️ **Azure SMS Integration** - Professional SMS via Azure Communication Services
 - 👥 **Multi-User System** - Create accounts for different users
 - 🔐 **Password Protection** - Secure your app with login
-- 🎨 **12 Beautiful Themes** - Dark and light modes, including Rubber Effect
+- 🎨 **14 Beautiful Themes** - Dark and light modes, including Rubber Effect and Jelly themes
 - ⏰ **Scheduled Sending** - Queue messages for later
 - 📊 **Message History** - Track all sent messages
 - 📈 **Email Tracking** - Track email opens
@@ -72,6 +72,8 @@ Each user gets their own isolated workspace. Enable Multi-User mode in Settings 
 - 💚 Cyber Neon
 - ❄️ Arctic Ice
 - 🎈 **Rubber Effect** - *NEW!* Bouncy animations with elastic UI effects
+- 🍬 **Jelly Pop** - *NEW!* Light theme with wobbly gelatinous animations
+- 🫐 **Jelly Dark** - *NEW!* Dark theme with squishy jelly effects
 
 ## 💻 Command Line Interface
 

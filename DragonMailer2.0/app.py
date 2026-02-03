@@ -74,6 +74,8 @@ THEMES = {
     "Cyber Neon": {"icon": "💚", "type": "dark"},
     "Arctic Ice": {"icon": "❄️", "type": "light"},
     "Rubber Effect": {"icon": "🎈", "type": "dark"},
+    "Jelly Pop": {"icon": "🍬", "type": "light"},
+    "Jelly Dark": {"icon": "🫐", "type": "dark"},
 }
 
 # SMS Gateway domains for major carriers
@@ -1528,6 +1530,18 @@ def get_theme_css(theme_name: str) -> str:
             "accent_light": "#ff6b6b", "input_bg": "#16213e", "select_bg": "#0f3460",
             "select_border": "#e94560", "type": "dark", "rubber": True
         },
+        "Jelly Pop": {
+            "bg": "#fff5f5", "sidebar_bg": "#ffffff", "card_bg": "#ffffff", "border": "#ff6b9d",
+            "text": "#4a1942", "text_secondary": "#8b5a8b", "accent": "#ff6b9d",
+            "accent_light": "#ff9ebe", "input_bg": "#ffffff", "select_bg": "#fff0f5",
+            "select_border": "#ff6b9d", "type": "light", "jelly": True
+        },
+        "Jelly Dark": {
+            "bg": "#1a0a2e", "sidebar_bg": "#2d1b4e", "card_bg": "#3d2066", "border": "#00d9ff",
+            "text": "#e0f7ff", "text_secondary": "#a0d4e8", "accent": "#00d9ff",
+            "accent_light": "#6ef3ff", "input_bg": "#2d1b4e", "select_bg": "#3d2066",
+            "select_border": "#00d9ff", "type": "dark", "jelly": True
+        },
     }
     
     # Get theme or default to Dragon Dark
@@ -2146,6 +2160,141 @@ def get_theme_css(theme_name: str) -> str:
         /* Progress bar rubber stretch */
         .stProgress > div > div {
             animation: rubberStretch 1s infinite ease-in-out !important;
+        }
+        """
+    
+    # Add jelly effect animations if this is a Jelly theme
+    if colors.get("jelly", False):
+        theme_css += """
+        /* ========== JELLY EFFECT ANIMATIONS ========== */
+        
+        /* Jelly wobble keyframes - gelatinous stretchy effect */
+        @keyframes jellyWobble {
+            0%   { transform: scale3d(1, 1, 1); }
+            25%  { transform: scale3d(1.25, 0.75, 1); }
+            35%  { transform: scale3d(0.75, 1.25, 1); }
+            45%  { transform: scale3d(1.15, 0.85, 1); }
+            55%  { transform: scale3d(0.95, 1.05, 1); }
+            65%  { transform: scale3d(1.05, 0.95, 1); }
+            75%  { transform: scale3d(0.98, 1.02, 1); }
+            100% { transform: scale3d(1, 1, 1); }
+        }
+        
+        @keyframes jellyPop {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.1); }
+            70% { transform: scale(0.95); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes jellySquish {
+            0%, 100% { transform: scaleY(1) scaleX(1); }
+            25% { transform: scaleY(0.9) scaleX(1.1); }
+            50% { transform: scaleY(1.1) scaleX(0.9); }
+            75% { transform: scaleY(0.95) scaleX(1.05); }
+        }
+        
+        @keyframes jellyBubble {
+            0%, 100% { transform: scale(1) translateY(0); }
+            25% { transform: scale(1.05) translateY(-3px); }
+            50% { transform: scale(0.98) translateY(2px); }
+            75% { transform: scale(1.02) translateY(-1px); }
+        }
+        
+        @keyframes jellyShake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            20% { transform: translateX(-2px) rotate(-1deg); }
+            40% { transform: translateX(2px) rotate(1deg); }
+            60% { transform: translateX(-1px) rotate(-0.5deg); }
+            80% { transform: translateX(1px) rotate(0.5deg); }
+        }
+        
+        /* Apply jelly wobble to buttons */
+        .stButton > button {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        }
+        .stButton > button:hover {
+            animation: jellyWobble 0.8s ease-in-out !important;
+        }
+        .stButton > button:active {
+            transform: scale3d(0.9, 1.1, 1) !important;
+        }
+        
+        /* Jelly effect on tabs */
+        .stTabs [data-baseweb="tab"] {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        }
+        .stTabs [data-baseweb="tab"]:hover {
+            animation: jellySquish 0.5s ease-in-out !important;
+        }
+        
+        /* Jelly effect on input fields */
+        .stTextInput > div > div > input:focus,
+        .stTextArea > div > div > textarea:focus {
+            animation: jellyPop 0.4s ease-out !important;
+        }
+        
+        /* Jelly effect on cards/expanders */
+        .streamlit-expanderHeader {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        }
+        .streamlit-expanderHeader:hover {
+            animation: jellyShake 0.4s ease-in-out !important;
+        }
+        
+        /* Bubble effect on metrics */
+        div[data-testid="metric-container"] {
+            animation: jellyBubble 2.5s infinite ease-in-out !important;
+        }
+        div[data-testid="metric-container"]:nth-child(even) {
+            animation-delay: 0.3s !important;
+        }
+        
+        /* Jelly effect on select boxes */
+        .stSelectbox > div > div {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        }
+        .stSelectbox > div > div:hover {
+            transform: scale3d(1.02, 0.98, 1) !important;
+        }
+        
+        /* Squish effect on file uploader */
+        .stFileUploader > div {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        }
+        .stFileUploader > div:hover {
+            animation: jellySquish 0.6s ease-in-out !important;
+        }
+        
+        /* Dragon logo jelly animation */
+        .dragon-icon {
+            animation: jellyBubble 3s infinite ease-in-out !important;
+        }
+        .dragon-icon:hover {
+            animation: jellyWobble 0.8s ease-in-out !important;
+        }
+        
+        /* Sidebar jelly effects */
+        section[data-testid="stSidebar"] .stMetric {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        }
+        section[data-testid="stSidebar"] .stMetric:hover {
+            animation: jellyWobble 0.6s ease-in-out !important;
+        }
+        
+        /* Alert jelly pop animations */
+        .stSuccess, .stError, .stInfo, .stWarning {
+            animation: jellyPop 0.5s ease-out !important;
+        }
+        
+        /* Progress bar jelly squish */
+        .stProgress > div > div {
+            animation: jellySquish 1.5s infinite ease-in-out !important;
+        }
+        
+        /* Checkboxes and radio buttons jelly effect */
+        .stCheckbox:hover, .stRadio:hover {
+            animation: jellyShake 0.3s ease-in-out !important;
         }
         """
     
